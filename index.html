@@ -1732,16 +1732,16 @@ function generatePdf() {
   }
 
   if (document.getElementById('checkCust').checked) {
-    html += '<h2>' + t('custTitle') + '</h2>';
-    html += customers.map(function(c) {
-      return '<p
-        '<strong>' + escapeHtml(c.name) + '</strong><br>' +
-        t('lblAddress') + ': ' + escapeHtml(c.addr || '') + '<br>' +
-        t('lblHours') + ': ' + escapeHtml(c.hours || '') + '<br>' +
-        t('lblNotes') + ': ' + escapeHtml(c.notes || '') +
-      '</p>';
-    }).join('');
-  }
+  html += '<h2>' + t('custTitle') + '</h2>';
+  html += customers.map(function(c) {
+    return '<p>' +
+      '<strong>' + escapeHtml(c.name) + '</strong><br>' +
+      t('lblAddress') + ': ' + escapeHtml(c.addr || '') + '<br>' +
+      t('lblHours') + ': ' + escapeHtml(c.hours || '') + '<br>' +
+      t('lblNotes') + ': ' + escapeHtml(c.notes || '') +
+    '</p>';
+  }).join('');
+}
 
   if (document.getElementById('checkTrail').checked) {
     html += '<h2>' + t('trailTitle') + '</h2>';
