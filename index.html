@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trucker Wallet PRO v12.4</title>
+    <title>Trucker Wallet PRO v12.5</title>
 
     <meta name="theme-color" content="#2563eb">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -313,7 +313,7 @@
 
 <div class="no-print">
     <div class="header">
-        <span style="font-weight:bold; color:var(--primary)">TW PRO v12.4</span>
+        <span style="font-weight:bold; color:var(--primary)">TW PRO v12.5</span>
         <div style="display:flex; gap:8px;">
             <button onclick="toggleLang()" id="langBtn" type="button" style="width:auto; padding:6px 14px; background:var(--secondary); border-radius:20px;">EN</button>
         </div>
@@ -600,11 +600,11 @@ function applyLang() {
     document.getElementById('langBtn').innerText = currentLang;
     const dict = translations[currentLang];
 
-    document.querySelectorAll('[data-i18n]').forEach(el => {
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
         el.innerText = dict[el.getAttribute('data-i18n')] || el.innerText;
     });
 
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
         el.placeholder = dict[el.getAttribute('data-i18n-placeholder')] || el.placeholder;
     });
 }
@@ -632,20 +632,20 @@ function formatMoney(num) {
 }
 
 function formatPeriodFromLogs(logItems) {
-    const validDates = logItems.map(l => new Date(l.date)).filter(d => !isNaN(d));
+    const validDates = logItems.map(function(l) { return new Date(l.date); }).filter(function(d) { return !isNaN(d); });
     if (!validDates.length) return 'Unknown period';
 
-    const start = new Date(Math.min(...validDates));
-    const end = new Date(Math.max(...validDates));
+    const start = new Date(Math.min.apply(null, validDates));
+    const end = new Date(Math.max.apply(null, validDates));
 
-    const fmt = d => {
+    function fmt(d) {
         const mm = String(d.getMonth() + 1).padStart(2, '0');
         const dd = String(d.getDate()).padStart(2, '0');
         const yy = d.getFullYear();
-        return `${mm}/${dd}/${yy}`;
-    };
+        return mm + '/' + dd + '/' + yy;
+    }
 
-    return `${fmt(start)} - ${fmt(end)}`;
+    return fmt(start) + ' - ' + fmt(end);
 }
 
 function calcEntryPayWithRates(miles, loads, wait, rates) {
@@ -675,8 +675,8 @@ function addEntry() {
         id: Date.now(),
         date: entryDate,
         miles: Number(miles.toFixed(1)),
-        loads,
-        wait,
+        loads: loads,
+        wait: wait,
         total: calcEntryPay(miles, loads, wait)
     });
 
@@ -693,19 +693,19 @@ function render() {
 
     document.getElementById('logBody').innerHTML = logs
         .slice()
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .map(l => {
+        .sort(function(a, b) { return new Date(b.date) - new Date(a.date); })
+        .map(function(l) {
             weekTotal += parseFloat(l.total);
-            return `<tr>
-                <td>${l.date}</td>
-                <td>${l.miles}</td>
-                <td>${l.loads}</td>
-                <td>${formatMoney(l.total)}</td>
-                <td class="action-btns">
-                    <button class="btn-icon" onclick="editCurrentLog(${l.id})" type="button">✏️</button>
-                    <button class="btn-icon" onclick="deleteCurrentLog(${l.id})" type="button">🗑️</button>
-                </td>
-            </tr>`;
+            return '<tr>' +
+                '<td>' + l.date + '</td>' +
+                '<td>' + l.miles + '</td>' +
+                '<td>' + l.loads + '</td>' +
+                '<td>' + formatMoney(l.total) + '</td>' +
+                '<td class="action-btns">' +
+                    '<button class="btn-icon" onclick="editCurrentLog(' + l.id + ')" type="button">✏️</button>' +
+                    '<button class="btn-icon" onclick="deleteCurrentLog(' + l.id + ')" type="button">🗑️</button>' +
+                '</td>' +
+            '</tr>';
         }).join('');
 
     document.getElementById('weekTotalDisplay').innerText = formatMoney(weekTotal);
@@ -718,122 +718,124 @@ function render() {
 function renderArchive() {
     const archDiv = document.getElementById('archiveList');
     if (!archive.length) {
-        archDiv.innerHTML = `<div class="card">No archived weeks yet.</div>`;
+        archDiv.innerHTML = '<div class="card">No archived weeks yet.</div>';
         return;
     }
 
     if (archFilter === 'weeks') {
-        archDiv.innerHTML = archive.slice().reverse().map(a => {
-            const total = a.entries.reduce((s, e) => s + parseFloat(e.total || 0), 0);
+        archDiv.innerHTML = archive.slice().reverse().map(function(a) {
+            const total = a.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
             const rateInfo = a.rates
-                ? `<div class="small">Rates:
-$$
-{a.rates.rateMile}/mile | 
-$$
-{a.rates.rateDrop}/drop |
-$$
-{a.rates.rateWait}/hr</div>`
+                ? '<div class="small">Rates: $' + a.rates.rateMile + '/mile | $' + a.rates.rateDrop + '/drop | $' + a.rates.rateWait + '/hr</div>'
                 : '';
-            return `<div class="card" onclick="editWeek(${a.id})">
-                <strong>${a.period}</strong><br>
-                <span class="pill">${a.entries.length} entries</span>
-                <span class="pill">Total: ${formatMoney(total)}</span>
-                ${rateInfo}
-            </div>`;
+
+            return '<div class="card" onclick="editWeek(' + a.id + ')">' +
+                '<strong>' + a.period + '</strong><br>' +
+                '<span class="pill">' + a.entries.length + ' entries</span>' +
+                '<span class="pill">Total: ' + formatMoney(total) + '</span>' +
+                rateInfo +
+            '</div>';
         }).join('');
     }
 
     if (archFilter === 'months') {
         const grouped = {};
-        archive.forEach(a => {
-            a.entries.forEach(e => {
+        archive.forEach(function(a) {
+            a.entries.forEach(function(e) {
                 if (!e.date) return;
                 const d = new Date(e.date);
                 if (isNaN(d)) return;
-                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
                 grouped[key] = (grouped[key] || 0) + parseFloat(e.total || 0);
             });
         });
 
         const keys = Object.keys(grouped).sort().reverse();
-        archDiv.innerHTML = keys.map(k => `<div class="card"><strong>Month: ${k}</strong><br>Total: ${formatMoney(grouped[k])}</div>`).join('');
+        archDiv.innerHTML = keys.map(function(k) {
+            return '<div class="card"><strong>Month: ' + k + '</strong><br>Total: ' + formatMoney(grouped[k]) + '</div>';
+        }).join('');
     }
 
     if (archFilter === 'years') {
         const grouped = {};
-        archive.forEach(a => {
-            a.entries.forEach(e => {
+        archive.forEach(function(a) {
+            a.entries.forEach(function(e) {
                 if (!e.date) return;
                 const d = new Date(e.date);
                 if (isNaN(d)) return;
-                const key = `${d.getFullYear()}`;
+                const key = String(d.getFullYear());
                 grouped[key] = (grouped[key] || 0) + parseFloat(e.total || 0);
             });
         });
 
         const keys = Object.keys(grouped).sort().reverse();
-        archDiv.innerHTML = keys.map(k => `<div class="card"><strong>Year: ${k}</strong><br>Total: ${formatMoney(grouped[k])}</div>`).join('');
+        archDiv.innerHTML = keys.map(function(k) {
+            return '<div class="card"><strong>Year: ' + k + '</strong><br>Total: ' + formatMoney(grouped[k]) + '</div>';
+        }).join('');
     }
 }
 
 function renderCustomers() {
-    const q = (document.getElementById('custSearch')?.value || '').toLowerCase();
+    const q = (document.getElementById('custSearch') ? document.getElementById('custSearch').value : '').toLowerCase();
     document.getElementById('customerList').innerHTML = customers
-        .filter(c =>
-            (c.name || '').toLowerCase().includes(q) ||
-            (c.addr || '').toLowerCase().includes(q) ||
-            (c.notes || '').toLowerCase().includes(q)
-        )
-        .map(c => `<div class="card" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-            <div>
-                <strong>${escapeHtml(c.name)}</strong><br>
-                <small>${escapeHtml(c.addr || '')}</small><br>
-                <small>${escapeHtml(c.hours || '')}</small>
-            </div>
-            <button class="btn-icon" onclick="deleteItem('cust', ${c.id})" type="button">🗑️</button>
-        </div>`).join('');
+        .filter(function(c) {
+            return (c.name || '').toLowerCase().includes(q) ||
+                   (c.addr || '').toLowerCase().includes(q) ||
+                   (c.notes || '').toLowerCase().includes(q);
+        })
+        .map(function(c) {
+            return '<div class="card" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">' +
+                '<div>' +
+                    '<strong>' + escapeHtml(c.name) + '</strong><br>' +
+                    '<small>' + escapeHtml(c.addr || '') + '</small><br>' +
+                    '<small>' + escapeHtml(c.hours || '') + '</small>' +
+                '</div>' +
+                '<button class="btn-icon" onclick="deleteItem(\'cust\', ' + c.id + ')" type="button">🗑️</button>' +
+            '</div>';
+        }).join('');
 }
 
 function renderTrailers() {
-    const q = (document.getElementById('trailSearch')?.value || '').toLowerCase();
+    const q = (document.getElementById('trailSearch') ? document.getElementById('trailSearch').value : '').toLowerCase();
     document.getElementById('trailerList').innerHTML = trailers
-        .filter(t =>
-            (t.unit || '').toLowerCase().includes(q) ||
-            (t.plate || '').toLowerCase().includes(q)
-        )
-        .map(t => `<div class="card" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-            <div>
-                <strong>${escapeHtml(t.unit)}</strong> | ${escapeHtml(t.plate || '')}<br>
-                <small>Max: ${escapeHtml(t.max || '')} / PSI: ${escapeHtml(t.psi || '')}</small>
-            </div>
-            <button class="btn-icon" onclick="deleteItem('trail', ${t.id})" type="button">🗑️</button>
-        </div>`).join('');
+        .filter(function(t) {
+            return (t.unit || '').toLowerCase().includes(q) ||
+                   (t.plate || '').toLowerCase().includes(q);
+        })
+        .map(function(t) {
+            return '<div class="card" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">' +
+                '<div>' +
+                    '<strong>' + escapeHtml(t.unit) + '</strong> | ' + escapeHtml(t.plate || '') + '<br>' +
+                    '<small>Max: ' + escapeHtml(t.max || '') + ' / PSI: ' + escapeHtml(t.psi || '') + '</small>' +
+                '</div>' +
+                '<button class="btn-icon" onclick="deleteItem(\'trail\', ' + t.id + ')" type="button">🗑️</button>' +
+            '</div>';
+        }).join('');
 }
 
 function escapeHtml(str) {
-    return String(str ?? '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
+    return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
 function editCurrentLog(id) {
-    const entry = logs.find(l => l.id === id);
+    const entry = logs.find(function(l) { return l.id === id; });
     if (!entry) return;
 
     currentEditingId = id;
     document.getElementById('modalTitle').innerText = "Edit Entry";
-    document.getElementById('modalBody').innerHTML = `
-        <input type="date" id="editDate" value="${entry.date}">
-        <input type="number" id="editMiles" value="${entry.miles}">
-        <input type="number" id="editLoads" value="${entry.loads}">
-        <input type="number" id="editWait" value="${entry.wait}">
-    `;
+    document.getElementById('modalBody').innerHTML =
+        '<input type="date" id="editDate" value="' + entry.date + '">' +
+        '<input type="number" id="editMiles" value="' + entry.miles + '">' +
+        '<input type="number" id="editLoads" value="' + entry.loads + '">' +
+        '<input type="number" id="editWait" value="' + entry.wait + '">';
 
     document.getElementById('editModal').style.display = 'flex';
-    document.getElementById('modalSaveBtn').onclick = () => {
+    document.getElementById('modalSaveBtn').onclick = function() {
         entry.date = document.getElementById('editDate').value;
         entry.miles = parseFloat(document.getElementById('editMiles').value) || 0;
         entry.loads = parseFloat(document.getElementById('editLoads').value) || 0;
@@ -847,7 +849,7 @@ function editCurrentLog(id) {
 
 function deleteCurrentLog(id) {
     if (!confirm("Delete entry?")) return;
-    logs = logs.filter(l => l.id !== id);
+    logs = logs.filter(function(l) { return l.id !== id; });
     saveAll();
     render();
 }
@@ -876,41 +878,36 @@ function finishWeek() {
 
 function editWeek(id) {
     currentEditingId = id;
-    const week = archive.find(a => a.id === id);
+    const week = archive.find(function(a) { return a.id === id; });
     if (!week) return;
 
     document.getElementById('modalTitle').innerText = week.period;
 
     const rateInfo = week.rates
-        ? `<div class="card" style="margin-bottom:15px;">
-            <strong>Archived rates</strong><br>
-            <div class="small">
-$$
-{week.rates.rateMile}/mile |
-$$
-{week.rates.rateDrop}/drop | $${week.rates.rateWait}/hr</div>
-          </div>`
+        ? '<div class="card" style="margin-bottom:15px;">' +
+          '<strong>Archived rates</strong><br>' +
+          '<div class="small">$' + week.rates.rateMile + '/mile | $' + week.rates.rateDrop + '/drop | $' + week.rates.rateWait + '/hr</div>' +
+          '</div>'
         : '';
 
-    document.getElementById('modalBody').innerHTML = rateInfo + week.entries.map((e, i) => `
-        <div style="border-bottom:1px solid var(--border); padding:10px 0;">
-            <input type="date" value="${e.date}" onchange="updateArchEntry(${i}, 'date', this.value)">
-            <input type="number" value="${e.miles}" onchange="updateArchEntry(${i}, 'miles', this.value)">
-            <input type="number" value="${e.loads}" onchange="updateArchEntry(${i}, 'loads', this.value)">
-            <input type="number" value="${e.wait}" onchange="updateArchEntry(${i}, 'wait', this.value)">
-        </div>
-    `).join('') + `
-        <button onclick="deleteWeek(${id})" class="danger" style="margin-top:15px;" type="button">Delete Week</button>
-    `;
+    document.getElementById('modalBody').innerHTML = rateInfo + week.entries.map(function(e, i) {
+        return '<div style="border-bottom:1px solid var(--border); padding:10px 0;">' +
+            '<input type="date" value="' + e.date + '" onchange="updateArchEntry(' + i + ', \'date\', this.value)">' +
+            '<input type="number" value="' + e.miles + '" onchange="updateArchEntry(' + i + ', \'miles\', this.value)">' +
+            '<input type="number" value="' + e.loads + '" onchange="updateArchEntry(' + i + ', \'loads\', this.value)">' +
+            '<input type="number" value="' + e.wait + '" onchange="updateArchEntry(' + i + ', \'wait\', this.value)">' +
+        '</div>';
+    }).join('') +
+    '<button onclick="deleteWeek(' + id + ')" class="danger" style="margin-top:15px;" type="button">Delete Week</button>';
 
     document.getElementById('editModal').style.display = 'flex';
-    document.getElementById('modalSaveBtn').onclick = () => {
-        const w = archive.find(a => a.id === id);
+    document.getElementById('modalSaveBtn').onclick = function() {
+        const w = archive.find(function(a) { return a.id === id; });
         if (!w) return;
 
         w.period = formatPeriodFromLogs(w.entries);
         const rates = w.rates || settings;
-        w.entries.forEach(e => {
+        w.entries.forEach(function(e) {
             e.total = calcEntryPayWithRates(e.miles, e.loads, e.wait, rates);
         });
 
@@ -921,7 +918,7 @@ $$
 }
 
 function updateArchEntry(i, field, val) {
-    const week = archive.find(a => a.id === currentEditingId);
+    const week = archive.find(function(a) { return a.id === currentEditingId; });
     if (!week || !week.entries[i]) return;
 
     if (field === 'miles' || field === 'loads' || field === 'wait') {
@@ -933,7 +930,7 @@ function updateArchEntry(i, field, val) {
 
 function deleteWeek(id) {
     if (!confirm("Delete this archived week?")) return;
-    archive = archive.filter(a => a.id !== id);
+    archive = archive.filter(function(a) { return a.id !== id; });
     saveAll();
     render();
     closeModal('editModal');
@@ -991,8 +988,8 @@ function addItem(type) {
 function deleteItem(type, id) {
     if (!confirm("Delete item?")) return;
 
-    if (type === 'cust') customers = customers.filter(c => c.id !== id);
-    if (type === 'trail') trailers = trailers.filter(t => t.id !== id);
+    if (type === 'cust') customers = customers.filter(function(c) { return c.id !== id; });
+    if (type === 'trail') trailers = trailers.filter(function(t) { return t.id !== id; });
 
     saveAll();
     render();
@@ -1005,7 +1002,9 @@ function updateSettings() {
     settings.driverName = document.getElementById('driverName').value.trim();
     localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
 
-    logs.forEach(e => e.total = calcEntryPay(e.miles, e.loads, e.wait));
+    logs.forEach(function(e) {
+        e.total = calcEntryPay(e.miles, e.loads, e.wait);
+    });
 
     saveAll();
     render();
@@ -1013,9 +1012,9 @@ function updateSettings() {
 
 function showPage(id, el) {
     document.getElementById('printArea').classList.remove('viewing');
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
     el.classList.add('active');
 }
 
@@ -1048,33 +1047,35 @@ function toggleTheme() {
 function clearData() {
     if (!confirm("Erase all app data?")) return;
 
-    Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k));
+    Object.keys(STORAGE_KEYS).forEach(function(key) {
+        localStorage.removeItem(STORAGE_KEYS[key]);
+    });
     location.reload();
 }
 
 function exportBackup() {
     const backup = {
-        version: '12.4',
+        version: '12.5',
         exportedAt: new Date().toISOString(),
-        logs,
-        archive,
-        customers,
-        trailers,
-        settings,
+        logs: logs,
+        archive: archive,
+        customers: customers,
+        trailers: trailers,
+        settings: settings,
         lang: currentLang,
         theme: document.body.getAttribute('data-theme') || 'light'
     };
 
-    downloadJson(backup, `trucker-wallet-backup-${new Date().toISOString().slice(0,10)}.json`);
+    downloadJson(backup, 'trucker-wallet-backup-' + new Date().toISOString().slice(0,10) + '.json');
 }
 
 function exportCurrentLogs() {
     const data = {
-        version: '12.4-current-logs',
+        version: '12.5-current-logs',
         exportedAt: new Date().toISOString(),
-        logs
+        logs: logs
     };
-    downloadJson(data, `trucker-current-logs-${new Date().toISOString().slice(0,10)}.json`);
+    downloadJson(data, 'trucker-current-logs-' + new Date().toISOString().slice(0,10) + '.json');
 }
 
 function downloadJson(data, fileName) {
@@ -1137,78 +1138,83 @@ function importBackup(event) {
 function generatePdf() {
     const area = document.getElementById('printArea');
 
-    let html = `
-        <div class="no-print" style="margin-bottom:20px; display:flex; gap:10px;">
-            <button onclick="closeReport()" style="background:#dc2626; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">✖ Close</button>
-            <button onclick="window.print()" style="background:#2563eb; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">🖨️ Print PDF</button>
-        </div>
-    `;
+    let html = '';
+    html += '<div class="no-print" style="margin-bottom:20px; display:flex; gap:10px;">';
+    html += '<button onclick="closeReport()" style="background:#dc2626; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">✖ Close</button>';
+    html += '<button onclick="window.print()" style="background:#2563eb; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">🖨️ Print PDF</button>';
+    html += '</div>';
 
-    html += `<h1>Trucker Wallet Report</h1>`;
-    html += `<p>Driver: ${escapeHtml(settings.driverName || '')} | Date: ${new Date().toLocaleDateString()}</p><hr>`;
+    html += '<h1>Trucker Wallet Report</h1>';
+    html += '<p>Driver: ' + escapeHtml(settings.driverName || '') + ' | Date: ' + new Date().toLocaleDateString() + '</p><hr>';
 
     if (document.getElementById('checkCurrent').checked) {
-        html += `<h2>Current Week Logs</h2>`;
-        html += `<table border="1" style="width:100%; border-collapse:collapse;">
-            <tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr>`;
+        html += '<h2>Current Week Logs</h2>';
+        html += '<table border="1" style="width:100%; border-collapse:collapse;">';
+        html += '<tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr>';
+
         let total = 0;
-        logs.forEach(ent => {
-            html += `<tr>
-                <td>${escapeHtml(ent.date)}</td>
-                <td>${escapeHtml(ent.miles)}</td>
-                <td>${escapeHtml(ent.loads)}</td>
-                <td>${escapeHtml(ent.wait)}</td>
-                <td>${formatMoney(ent.total)}</td>
-            </tr>`;
+        logs.forEach(function(ent) {
+            html += '<tr>' +
+                '<td>' + escapeHtml(ent.date) + '</td>' +
+                '<td>' + escapeHtml(ent.miles) + '</td>' +
+                '<td>' + escapeHtml(ent.loads) + '</td>' +
+                '<td>' + escapeHtml(ent.wait) + '</td>' +
+                '<td>' + formatMoney(ent.total) + '</td>' +
+            '</tr>';
             total += parseFloat(ent.total || 0);
         });
-        html += `</table><h3>Total: ${formatMoney(total)}</h3>`;
+
+        html += '</table><h3>Total: ' + formatMoney(total) + '</h3>';
     }
 
     if (document.getElementById('checkArch').checked) {
         const s = new Date(document.getElementById('pdfStart').value || '2000-01-01');
         const e = new Date(document.getElementById('pdfEnd').value || '2100-12-31');
 
-        html += `<h2>Archived Logs</h2>`;
-        html += `<table border="1" style="width:100%; border-collapse:collapse;">
-            <tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr>`;
+        html += '<h2>Archived Logs</h2>';
+        html += '<table border="1" style="width:100%; border-collapse:collapse;">';
+        html += '<tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr>';
 
         let t = 0;
-        archive.forEach(a => a.entries.forEach(ent => {
-            const d = new Date(ent.date);
-            if (d >= s && d <= e) {
-                html += `<tr>
-                    <td>${escapeHtml(ent.date)}</td>
-                    <td>${escapeHtml(ent.miles)}</td>
-                    <td>${escapeHtml(ent.loads)}</td>
-                    <td>${escapeHtml(ent.wait)}</td>
-                    <td>${formatMoney(ent.total)}</td>
-                </tr>`;
-                t += parseFloat(ent.total || 0);
-            }
-        }));
-        html += `</table><h3>Total: ${formatMoney(t)}</h3>`;
+        archive.forEach(function(a) {
+            a.entries.forEach(function(ent) {
+                const d = new Date(ent.date);
+                if (d >= s && d <= e) {
+                    html += '<tr>' +
+                        '<td>' + escapeHtml(ent.date) + '</td>' +
+                        '<td>' + escapeHtml(ent.miles) + '</td>' +
+                        '<td>' + escapeHtml(ent.loads) + '</td>' +
+                        '<td>' + escapeHtml(ent.wait) + '</td>' +
+                        '<td>' + formatMoney(ent.total) + '</td>' +
+                    '</tr>';
+                    t += parseFloat(ent.total || 0);
+                }
+            });
+        });
+
+        html += '</table><h3>Total: ' + formatMoney(t) + '</h3>';
     }
 
     if (document.getElementById('checkCust').checked) {
-        html += `<h2>Customers</h2>`;
-        html += customers.map(c => `
-            <p>
-                <strong>${escapeHtml(c.name)}</strong><br>
-                ${escapeHtml(c.addr)}<br>
-                ${escapeHtml(c.hours)}<br>
-                ${escapeHtml(c.notes)}
-            </p>
-        `).join('');
+        html += '<h2>Customers</h2>';
+        html += customers.map(function(c) {
+            return '<p>' +
+                '<strong>' + escapeHtml(c.name) + '</strong><br>' +
+                escapeHtml(c.addr) + '<br>' +
+                escapeHtml(c.hours) + '<br>' +
+                escapeHtml(c.notes) +
+            '</p>';
+        }).join('');
     }
 
     if (document.getElementById('checkTrail').checked) {
-        html += `<h2>Trailers</h2>`;
-        html += trailers.map(t => `
-            <p>
-                Unit ${escapeHtml(t.unit)} | Plate: ${escapeHtml(t.plate)} | Max: ${escapeHtml(t.max)} | PSI: ${escapeHtml(t.psi)}
-            </p>
-        `).join('');
+        html += '<h2>Trailers</h2>';
+        html += trailers.map(function(t) {
+            return '<p>' +
+                'Unit ' + escapeHtml(t.unit) + ' | Plate: ' + escapeHtml(t.plate) +
+                ' | Max: ' + escapeHtml(t.max) + ' | PSI: ' + escapeHtml(t.psi) +
+            '</p>';
+        }).join('');
     }
 
     area.innerHTML = html;
@@ -1236,8 +1242,10 @@ applyLang();
 render();
 
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js').catch(err => console.log('SW fail:', err));
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./service-worker.js').catch(function(err) {
+            console.log('SW fail:', err);
+        });
     });
 }
 </script>
