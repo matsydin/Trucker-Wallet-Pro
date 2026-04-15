@@ -1,601 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trucker Wallet PRO v12.6</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Trucker Wallet PRO v12.8</title>
 
-    <meta name="theme-color" content="#2563eb">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Truck Wallet">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Truck Wallet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
-    <style>
-        :root {
-            --bg-color: #f4f4f9;
-            --text-color: #333;
-            --card-bg: #ffffff;
-            --primary: #2563eb;
-            --secondary: #64748b;
-            --danger: #dc2626;
-            --success: #059669;
-            --warning: #d97706;
-            --border: #e2e8f0;
-        }
+  <style>
+    :root {
+      --bg-color: #f4f4f9;
+      --text-color: #333;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --secondary: #64748b;
+      --danger: #dc2626;
+      --success: #059669;
+      --warning: #d97706;
+      --border: #e2e8f0;
+    }
 
-        [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --text-color: #f1f5f9;
-            --card-bg: #1e293b;
-            --primary: #3b82f6;
-            --secondary: #94a3b8;
-            --border: #334155;
-        }
+    [data-theme="dark"] {
+      --bg-color: #0f172a;
+      --text-color: #f1f5f9;
+      --card-bg: #1e293b;
+      --primary: #3b82f6;
+      --secondary: #94a3b8;
+      --border: #334155;
+    }
 
-        * { box-sizing: border-box; }
+    * { box-sizing: border-box; }
 
-        body {
-            font-family: -apple-system, system-ui, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding-bottom: calc(85px + env(safe-area-inset-bottom));
-        }
+    body {
+      font-family: -apple-system, system-ui, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding-bottom: calc(85px + env(safe-area-inset-bottom));
+    }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 15px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 1001;
-        }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1001;
+    }
 
-        .container {
-            padding: 15px;
-            max-width: 980px;
-            margin: auto;
-        }
+    .container {
+      padding: 15px;
+      max-width: 980px;
+      margin: auto;
+    }
 
-        .page { display: none; }
-        .page.active { display: block; }
+    .page { display: none; }
+    .page.active { display: block; }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-color);
-            color: var(--text-color);
-            font-size: 16px;
-            -webkit-appearance: none;
-            appearance: none;
-        }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-size: 16px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
 
-        textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
 
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-            -webkit-appearance: none;
-            appearance: none;
-        }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      width: 100%;
+      font-weight: bold;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+    }
 
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-        .btn-row button {
-            flex: 1 1 140px;
-        }
+    .btn-row button,
+    .btn-row > div {
+      flex: 1 1 140px;
+    }
 
-        .search-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+    .search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
 
-        .clear-btn {
-            position: absolute;
-            right: 10px;
-            background: var(--secondary);
-            color: white;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            cursor: pointer;
-            opacity: 0.8;
-        }
+    .clear-btn {
+      position: absolute;
+      right: 10px;
+      background: var(--secondary);
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      opacity: 0.8;
+    }
 
-        .unit-toggle {
-            display: flex;
-            background: var(--border);
-            border-radius: 8px;
-            padding: 4px;
-            margin-bottom: 10px;
-        }
+    .unit-toggle {
+      display: flex;
+      background: var(--border);
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 10px;
+    }
 
-        .unit-toggle button {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 6px;
-            background: none;
-            color: var(--text-color);
-            cursor: pointer;
-            font-weight: bold;
-        }
+    .unit-toggle button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      background: none;
+      color: var(--text-color);
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-        .unit-toggle button.active {
-            background: var(--primary);
-            color: white;
-        }
+    .unit-toggle button.active {
+      background: var(--primary);
+      color: white;
+    }
 
-        .summary-box {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            font-weight: bold;
-            padding: 12px;
-            background: var(--primary);
-            border-radius: 8px;
-            color: white;
-            margin-bottom: 15px;
-        }
+    .summary-box {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: bold;
+      padding: 12px;
+      background: var(--primary);
+      border-radius: 8px;
+      color: white;
+      margin-bottom: 15px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
 
-        th, td {
-            border: 1px solid var(--border);
-            padding: 8px;
-            text-align: left;
-            vertical-align: top;
-        }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
 
-        th {
-            background: var(--primary);
-            color: white;
-        }
+    th {
+      background: var(--primary);
+      color: white;
+    }
 
-        tr.clickable-row {
-            cursor: pointer;
-        }
+    tr.clickable-row {
+      cursor: pointer;
+    }
 
-        tr.clickable-row:hover {
-            background: rgba(37, 99, 235, 0.08);
-        }
+    tr.clickable-row:hover {
+      background: rgba(37, 99, 235, 0.08);
+    }
 
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-        }
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
 
-        .modal-content {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 760px;
-            max-height: 90vh;
-            border-radius: 15px;
-            padding: 20px;
-            overflow-y: auto;
-            position: relative;
-        }
+    .modal-content {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 760px;
+      max-height: 90vh;
+      border-radius: 15px;
+      padding: 20px;
+      overflow-y: auto;
+      position: relative;
+    }
 
-        .close-modal {
-            position: absolute;
-            right: 15px;
-            top: 10px;
-            font-size: 24px;
-            cursor: pointer;
-        }
+    .close-modal {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 24px;
+      cursor: pointer;
+    }
 
-        #printArea {
-            display: none;
-            background: white;
-            color: black;
-            min-height: 100vh;
-            padding: 20px;
-            z-index: 3000;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
+    #printArea {
+      display: none;
+      background: white;
+      color: black;
+      min-height: 100vh;
+      padding: 20px;
+      z-index: 3000;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
 
-        #printArea.viewing { display: block; }
+    #printArea.viewing { display: block; }
 
-        .action-btns {
-            display: flex;
-            gap: 5px;
-            justify-content: center;
-        }
+    .action-btns {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-        .btn-icon {
-            background: none;
-            padding: 5px;
-            color: var(--text-color);
-            width: auto;
-            font-size: 16px;
-        }
+    .btn-icon {
+      background: none;
+      padding: 5px;
+      color: var(--text-color);
+      width: auto;
+      font-size: 16px;
+    }
 
-        .small {
-            font-size: 12px;
-            opacity: 0.8;
-        }
+    .small {
+      font-size: 12px;
+      opacity: 0.8;
+    }
 
-        .pill {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 999px;
-            background: var(--border);
-            font-size: 12px;
-            margin-right: 5px;
-            margin-top: 5px;
-        }
+    .tab-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: var(--card-bg);
+      display: flex;
+      border-top: 1px solid var(--border);
+      padding: 10px 0 calc(10px + env(safe-area-inset-bottom)) 0;
+      z-index: 1000;
+    }
 
-        .tab-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: var(--card-bg);
-            display: flex;
-            border-top: 1px solid var(--border);
-            padding: 10px 0 calc(10px + env(safe-area-inset-bottom)) 0;
-            z-index: 1000;
-        }
+    .tab-item {
+      flex: 1;
+      text-align: center;
+      font-size: 10px;
+      color: var(--secondary);
+      cursor: pointer;
+    }
 
-        .tab-item {
-            flex: 1;
-            text-align: center;
-            font-size: 10px;
-            color: var(--secondary);
-            cursor: pointer;
-        }
+    .tab-item.active {
+      color: var(--primary);
+      font-weight: bold;
+    }
 
-        .tab-item.active {
-            color: var(--primary);
-            font-weight: bold;
-        }
+    .section-title {
+      margin: 0 0 10px 0;
+    }
 
-        .section-title {
-            margin: 0 0 10px 0;
-        }
+    .danger { background: var(--danger) !important; }
+    .success { background: var(--success) !important; }
+    .secondary { background: var(--secondary) !important; }
+    .warning { background: var(--warning) !important; }
 
-        .danger { background: var(--danger) !important; }
-        .success { background: var(--success) !important; }
-        .secondary { background: var(--secondary) !important; }
-        .warning { background: var(--warning) !important; }
-
-        @media print {
-            .no-print { display: none !important; }
-            #printArea { display: block !important; position: static; padding: 0; }
-        }
-    </style>
+    @media print {
+      .no-print { display: none !important; }
+      #printArea { display: block !important; position: static; padding: 0; }
+    }
+  </style>
 </head>
 <body data-theme="light">
 
 <div id="printArea"></div>
 
 <div class="no-print">
-    <div class="header">
-        <span style="font-weight:bold; color:var(--primary)">TW PRO v12.6</span>
-        <div style="display:flex; gap:8px;">
-            <button onclick="toggleLang()" id="langBtn" type="button" style="width:auto; padding:6px 14px; background:var(--secondary); border-radius:20px;">EN</button>
+  <div class="header">
+    <span style="font-weight:bold; color:var(--primary)">TW PRO v12.8</span>
+    <div style="display:flex; gap:8px;">
+      <button onclick="toggleLang()" id="langBtn" type="button" style="width:auto; padding:6px 14px; background:var(--secondary); border-radius:20px;">EN</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <section id="logbook" class="page active">
+      <div class="summary-box">
+        <span data-i18n="totalWeek">Total week:</span>
+        <span id="weekTotalDisplay">\$0.00</span>
+      </div>
+
+      <div class="btn-row" style="margin-bottom:15px;">
+        <button onclick="finishWeek()" class="success" data-i18n="btnEndWeek">Finish Week</button>
+        <button onclick="exportCurrentLogs()" class="warning" type="button">Export Logs</button>
+        <button onclick="openPdfModal()" class="secondary" type="button">📄 PDF</button>
+      </div>
+
+      <div class="card">
+        <input type="date" id="entryDate">
+
+        <div class="unit-toggle">
+          <button id="btnMi" class="active" onclick="setUnit('mi')" type="button">MI</button>
+          <button id="btnKm" onclick="setUnit('km')" type="button">KM</button>
         </div>
-    </div>
 
-    <div class="container">
-        <section id="logbook" class="page active">
-            <div class="summary-box">
-                <span data-i18n="totalWeek">Total week:</span>
-                <span id="weekTotalDisplay">\$0.00</span>
+        <input type="number" id="distance" data-i18n-placeholder="phDist" placeholder="Distance">
+        <input type="number" id="loads" data-i18n-placeholder="phLoads" placeholder="Pickups/Drops">
+        <input type="number" id="waiting" data-i18n-placeholder="phWaiting" placeholder="Waiting (hrs)">
+        <button onclick="addEntry()" data-i18n="btnAdd">Add Entry</button>
+      </div>
+
+      <div class="card" style="padding:10px 5px;">
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="thDate">Date</th>
+              <th>Miles</th>
+              <th>P/D</th>
+              <th data-i18n="thTotal">Pay</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="logBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="archive" class="page">
+      <h2 class="section-title" data-i18n="archTitle">Archive</h2>
+
+      <div class="card">
+        <div class="btn-row">
+          <div>
+            <label>From</label>
+            <input type="date" id="archStart">
+          </div>
+          <div>
+            <label>To</label>
+            <input type="date" id="archEnd">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button onclick="applyArchiveFilter()" type="button">Apply Filter</button>
+          <button onclick="resetArchiveFilter()" class="secondary" type="button">Reset</button>
+        </div>
+      </div>
+
+      <div class="unit-toggle">
+        <button id="fWeeks" class="active" onclick="setArchFilter('weeks')" type="button">Weeks</button>
+        <button id="fMonths" onclick="setArchFilter('months')" type="button">Months</button>
+        <button id="fYears" onclick="setArchFilter('years')" type="button">Years</button>
+      </div>
+
+      <div class="card">
+        <div class="btn-row">
+          <button onclick="exportBackup()" class="secondary" type="button">Export Backup</button>
+          <button onclick="document.getElementById('importFile').click()" class="warning" type="button">Import Backup</button>
+        </div>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+        <div class="small">Backup includes logs, archive, customers, trailers, settings, language and theme.</div>
+      </div>
+
+      <div id="archiveList"></div>
+    </section>
+
+    <section id="customers" class="page">
+      <h2 class="section-title" data-i18n="custTitle">Customers</h2>
+
+      <div class="search-wrapper">
+        <input type="text" id="custSearch" data-i18n-placeholder="phSearch" placeholder="Search..." oninput="handleSearchInput('custSearch', 'custClear')">
+        <div id="custClear" class="clear-btn" onclick="clearSearch('custSearch', 'custClear')">×</div>
+      </div>
+
+      <div class="card">
+        <input type="text" id="custName" placeholder="Company Name">
+        <input type="text" id="custAddress" placeholder="Address">
+
+        <label>Hours Type</label>
+        <select id="custHoursType" onchange="toggleCustomerHoursFields()">
+          <option value="normal">Normal</option>
+          <option value="24h">24h</option>
+          <option value="fcfs">FCFS</option>
+          <option value="closed">Closed</option>
+          <option value="appointment">By appointment</option>
+        </select>
+
+        <div id="custHoursNormalWrap">
+          <div class="btn-row">
+            <div>
+              <label>Open Time</label>
+              <input type="time" id="custOpenTime">
             </div>
-
-            <div class="btn-row" style="margin-bottom:15px;">
-                <button onclick="finishWeek()" class="success" data-i18n="btnEndWeek">Finish Week</button>
-                <button onclick="exportCurrentLogs()" class="warning" type="button">Export Logs</button>
-                <button onclick="openPdfModal()" class="secondary" type="button">📄 PDF</button>
+            <div>
+              <label>Close Time</label>
+              <input type="time" id="custCloseTime">
             </div>
+          </div>
+        </div>
 
-            <div class="card">
-                <input type="date" id="entryDate">
+        <textarea id="custNotes" placeholder="Notes"></textarea>
+        <button onclick="addItem('cust')" data-i18n="btnSave">Save</button>
+      </div>
 
-                <div class="unit-toggle">
-                    <button id="btnMi" class="active" onclick="setUnit('mi')" type="button">MI</button>
-                    <button id="btnKm" onclick="setUnit('km')" type="button">KM</button>
-                </div>
+      <div id="customerList"></div>
+    </section>
 
-                <input type="number" id="distance" data-i18n-placeholder="phDist" placeholder="Distance">
-                <input type="number" id="loads" data-i18n-placeholder="phLoads" placeholder="Pickups/Drops">
-                <input type="number" id="waiting" data-i18n-placeholder="phWaiting" placeholder="Waiting (hrs)">
-                <button onclick="addEntry()" data-i18n="btnAdd">Add Entry</button>
-            </div>
+    <section id="trailers" class="page">
+      <h2 class="section-title" data-i18n="trailTitle">Trailers</h2>
 
-            <div class="card" style="padding:10px 5px;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th data-i18n="thDate">Date</th>
-                            <th>Miles</th>
-                            <th>P/D</th>
-                            <th data-i18n="thTotal">Pay</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="logBody"></tbody>
-                </table>
-            </div>
-        </section>
+      <div class="search-wrapper">
+        <input type="text" id="trailSearch" data-i18n-placeholder="phSearch" placeholder="Search Unit/Plate..." oninput="handleSearchInput('trailSearch', 'trailClear')">
+        <div id="trailClear" class="clear-btn" onclick="clearSearch('trailSearch', 'trailClear')">×</div>
+      </div>
 
-        <section id="archive" class="page">
-            <h2 class="section-title" data-i18n="archTitle">Archive</h2>
+      <div class="card">
+        <input type="text" id="trailUnit" placeholder="Unit Number">
+        <input type="text" id="trailPlate" placeholder="License Plate">
+        <input type="number" id="trailMax" placeholder="Max Load (lbs)">
+        <input type="text" id="trailPsi" placeholder="PSI at Max Load">
+        <button onclick="addItem('trail')" data-i18n="btnSave">Save</button>
+      </div>
 
-            <div class="card">
-                <div class="btn-row">
-                    <div style="flex:1 1 180px;">
-                        <label>From</label>
-                        <input type="date" id="archStart">
-                    </div>
-                    <div style="flex:1 1 180px;">
-                        <label>To</label>
-                        <input type="date" id="archEnd">
-                    </div>
-                </div>
-                <div class="btn-row">
-                    <button onclick="applyArchiveFilter()" class="primary" type="button">Apply Filter</button>
-                    <button onclick="resetArchiveFilter()" class="secondary" type="button">Reset</button>
-                </div>
-            </div>
+      <div id="trailerList"></div>
+    </section>
 
-            <div class="unit-toggle">
-                <button id="fWeeks" class="active" onclick="setArchFilter('weeks')" type="button">Weeks</button>
-                <button id="fMonths" onclick="setArchFilter('months')" type="button">Months</button>
-                <button id="fYears" onclick="setArchFilter('years')" type="button">Years</button>
-            </div>
+    <section id="settings" class="page">
+      <h2 class="section-title" data-i18n="settTitle">Settings</h2>
 
-            <div class="card">
-                <div class="btn-row">
-                    <button onclick="exportBackup()" class="secondary" type="button">Export Backup</button>
-                    <button onclick="document.getElementById('importFile').click()" class="warning" type="button">Import Backup</button>
-                </div>
-                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
-                <div class="small">Backup includes logs, archive, customers, trailers, settings, language and theme.</div>
-            </div>
+      <div class="card">
+        <label>Driver Name:</label>
+        <input type="text" id="driverName" onchange="updateSettings()">
 
-            <div id="archiveList"></div>
-        </section>
+        <label data-i18n="rateMile">Rate per Mile:</label>
+        <input type="number" step="0.01" id="rateMile" onchange="updateSettings()">
 
-        <section id="customers" class="page">
-            <h2 class="section-title" data-i18n="custTitle">Customers</h2>
+        <label data-i18n="rateDrop">Rate per P/D:</label>
+        <input type="number" id="rateDrop" onchange="updateSettings()">
 
-            <div class="search-wrapper">
-                <input type="text" id="custSearch" data-i18n-placeholder="phSearch" placeholder="Search..." oninput="handleSearchInput('custSearch', 'custClear')">
-                <div id="custClear" class="clear-btn" onclick="clearSearch('custSearch', 'custClear')">×</div>
-            </div>
+        <label data-i18n="rateWait">Rate Waiting/hr:</label>
+        <input type="number" id="rateWait" onchange="updateSettings()">
 
-            <div class="card">
-                <input type="text" id="custName" placeholder="Company Name">
-                <input type="text" id="custAddress" placeholder="Address">
-                <input type="text" id="custHours" placeholder="Working Hours">
-                <textarea id="custNotes" placeholder="Notes"></textarea>
-                <button onclick="addItem('cust')" data-i18n="btnSave">Save</button>
-            </div>
+        <div class="btn-row" style="margin-top:10px;">
+          <button onclick="toggleTheme()" class="secondary" data-i18n="btnTheme" type="button">Theme</button>
+          <button onclick="clearData()" class="danger" data-i18n="btnClear" type="button">Reset All</button>
+        </div>
+      </div>
 
-            <div id="customerList"></div>
-        </section>
-
-        <section id="trailers" class="page">
-            <h2 class="section-title" data-i18n="trailTitle">Trailers</h2>
-
-            <div class="search-wrapper">
-                <input type="text" id="trailSearch" data-i18n-placeholder="phSearch" placeholder="Search Unit/Plate..." oninput="handleSearchInput('trailSearch', 'trailClear')">
-                <div id="trailClear" class="clear-btn" onclick="clearSearch('trailSearch', 'trailClear')">×</div>
-            </div>
-
-            <div class="card">
-                <input type="text" id="trailUnit" placeholder="Unit Number">
-                <input type="text" id="trailPlate" placeholder="License Plate">
-                <input type="number" id="trailMax" placeholder="Max Load (lbs)">
-                <input type="text" id="trailPsi" placeholder="PSI at Max Load">
-                <button onclick="addItem('trail')" data-i18n="btnSave">Save</button>
-            </div>
-
-            <div id="trailerList"></div>
-        </section>
-
-        <section id="settings" class="page">
-            <h2 class="section-title" data-i18n="settTitle">Settings</h2>
-
-            <div class="card">
-                <label>Driver Name:</label>
-                <input type="text" id="driverName" onchange="updateSettings()">
-
-                <label data-i18n="rateMile">Rate per Mile:</label>
-                <input type="number" step="0.01" id="rateMile" onchange="updateSettings()">
-
-                <label data-i18n="rateDrop">Rate per P/D:</label>
-                <input type="number" id="rateDrop" onchange="updateSettings()">
-
-                <label data-i18n="rateWait">Rate Waiting/hr:</label>
-                <input type="number" id="rateWait" onchange="updateSettings()">
-
-                <div class="btn-row" style="margin-top:10px;">
-                    <button onclick="toggleTheme()" class="secondary" data-i18n="btnTheme" type="button">Theme</button>
-                    <button onclick="clearData()" class="danger" data-i18n="btnClear" type="button">Reset All</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div><strong>Tips</strong></div>
-                <div class="small">Use Export Backup regularly so you don't lose data if Safari storage is cleared.</div>
-            </div>
-        </section>
-    </div>
+      <div class="card">
+        <div><strong>Tips</strong></div>
+        <div class="small">Use Export Backup regularly so you don't lose data if Safari storage is cleared.</div>
+      </div>
+    </section>
+  </div>
 </div>
 
 <div id="pdfModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('pdfModal')">&times;</span>
-        <h3>Export to PDF</h3>
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal('pdfModal')">&times;</span>
+    <h3>Export to PDF</h3>
 
-        <label><input type="checkbox" id="checkArch" checked> Archived Logs</label>
+    <label><input type="checkbox" id="checkArch" checked> Archived Logs</label>
 
-        <div style="margin-left:25px;">
-            <small>From:</small>
-            <input type="date" id="pdfStart">
-            <small>To:</small>
-            <input type="date" id="pdfEnd">
-        </div>
-
-        <label><input type="checkbox" id="checkCust"> Customers</label>
-        <label><input type="checkbox" id="checkTrail"> Trailers</label>
-
-        <button onclick="generatePdf()" style="margin-top:15px;" type="button">Preview Report</button>
+    <div style="margin-left:25px;">
+      <small>From:</small>
+      <input type="date" id="pdfStart">
+      <small>To:</small>
+      <input type="date" id="pdfEnd">
     </div>
+
+    <label><input type="checkbox" id="checkCust"> Customers</label>
+    <label><input type="checkbox" id="checkTrail"> Trailers</label>
+
+    <button onclick="generatePdf()" style="margin-top:15px;" type="button">Preview Report</button>
+  </div>
 </div>
 
 <div id="editModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('editModal')">&times;</span>
-        <h3 id="modalTitle">Edit</h3>
-        <div id="modalBody"></div>
-        <button id="modalSaveBtn" class="success" style="margin-top:15px;" type="button">Save Changes</button>
-    </div>
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal('editModal')">&times;</span>
+    <h3 id="modalTitle">Edit</h3>
+    <div id="modalBody"></div>
+    <button id="modalSaveBtn" class="success" style="margin-top:15px;" type="button">Save Changes</button>
+  </div>
 </div>
 
 <div id="archiveDetailModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('archiveDetailModal')">&times;</span>
-        <h3 id="archiveDetailTitle">Archive Details</h3>
-        <div id="archiveDetailBody"></div>
-    </div>
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal('archiveDetailModal')">&times;</span>
+    <h3 id="archiveDetailTitle">Archive Details</h3>
+    <div id="archiveDetailBody"></div>
+  </div>
 </div>
 
 <nav class="tab-bar no-print">
-    <div class="tab-item active" onclick="showPage('logbook', this)">
-        <span>📋</span><div data-i18n="tabLog">Log</div>
-    </div>
-    <div class="tab-item" onclick="showPage('archive', this)">
-        <span>📁</span><div data-i18n="tabArch">Archive</div>
-    </div>
-    <div class="tab-item" onclick="showPage('customers', this)">
-        <span>🏢</span><div data-i18n="tabCust">Cust</div>
-    </div>
-    <div class="tab-item" onclick="showPage('trailers', this)">
-        <span>🚚</span><div data-i18n="tabTrail">Fleet</div>
-    </div>
-    <div class="tab-item" onclick="showPage('settings', this)">
-        <span>⚙️</span><div data-i18n="tabSett">Sett</div>
-    </div>
+  <div class="tab-item active" onclick="showPage('logbook', this)">
+    <span>📋</span><div data-i18n="tabLog">Log</div>
+  </div>
+  <div class="tab-item" onclick="showPage('archive', this)">
+    <span>📁</span><div data-i18n="tabArch">Archive</div>
+  </div>
+  <div class="tab-item" onclick="showPage('customers', this)">
+    <span>🏢</span><div data-i18n="tabCust">Cust</div>
+  </div>
+  <div class="tab-item" onclick="showPage('trailers', this)">
+    <span>🚚</span><div data-i18n="tabTrail">Fleet</div>
+  </div>
+  <div class="tab-item" onclick="showPage('settings', this)">
+    <span>⚙️</span><div data-i18n="tabSett">Sett</div>
+  </div>
 </nav>
 
 <script>
 const translations = {
-    EN: {
-        totalWeek: "Total week:",
-        btnEndWeek: "Finish Week",
-        phDist: "Distance",
-        phLoads: "Drops/Pickups",
-        phWaiting: "Waiting (h)",
-        btnAdd: "Add Entry",
-        thDate: "Date",
-        thTotal: "Pay",
-        custTitle: "Customers",
-        phSearch: "Search...",
-        btnSave: "Save",
-        trailTitle: "Trailers",
-        settTitle: "Settings",
-        rateMile: "Rate/Mile ($):",
-        rateDrop: "Rate/Drop ($):",
-        rateWait: "Waiting/hr ($):",
-        btnTheme: "Theme",
-        btnClear: "Reset All",
-        tabLog: "Log",
-        tabArch: "Archive",
-        tabCust: "Cust",
-        tabTrail: "Fleet",
-        tabSett: "Sett",
-        archTitle: "Archive"
-    },
-    DE: {
-        totalWeek: "Woche Summe:",
-        btnEndWeek: "Woche beenden",
-        phDist: "Distanz",
-        phLoads: "Drops/Pickups",
-        phWaiting: "Warten (h)",
-        btnAdd: "Eintragen",
-        thDate: "Datum",
-        thTotal: "Lohn",
-        custTitle: "Kunden",
-        phSearch: "Suche...",
-        btnSave: "Speichern",
-        trailTitle: "Auflieger",
-        settTitle: "Optionen",
-        rateMile: "Pro Meile ($):",
-        rateDrop: "Pro Stopp ($):",
-        rateWait: "Warten/Std ($):",
-        btnTheme: "Modus",
-        btnClear: "Löschen",
-        tabLog: "Log",
-        tabArch: "Archiv",
-        tabCust: "Kunden",
-        tabTrail: "Flotte",
-        tabSett: "Option",
-        archTitle: "Archiv"
-    }
+  EN: {
+    totalWeek: "Total week:",
+    btnEndWeek: "Finish Week",
+    phDist: "Distance",
+    phLoads: "Drops/Pickups",
+    phWaiting: "Waiting (h)",
+    btnAdd: "Add Entry",
+    thDate: "Date",
+    thTotal: "Pay",
+    custTitle: "Customers",
+    phSearch: "Search...",
+    btnSave: "Save",
+    trailTitle: "Trailers",
+    settTitle: "Settings",
+    rateMile: "Rate/Mile ($):",
+    rateDrop: "Rate/Drop ($):",
+    rateWait: "Waiting/hr ($):",
+    btnTheme: "Theme",
+    btnClear: "Reset All",
+    tabLog: "Log",
+    tabArch: "Archive",
+    tabCust: "Cust",
+    tabTrail: "Fleet",
+    tabSett: "Sett",
+    archTitle: "Archive"
+  },
+  DE: {
+    totalWeek: "Woche Summe:",
+    btnEndWeek: "Woche beenden",
+    phDist: "Distanz",
+    phLoads: "Drops/Pickups",
+    phWaiting: "Warten (h)",
+    btnAdd: "Eintragen",
+    thDate: "Datum",
+    thTotal: "Lohn",
+    custTitle: "Kunden",
+    phSearch: "Suche...",
+    btnSave: "Speichern",
+    trailTitle: "Auflieger",
+    settTitle: "Optionen",
+    rateMile: "Pro Meile ($):",
+    rateDrop: "Pro Stopp ($):",
+    rateWait: "Warten/Std ($):",
+    btnTheme: "Modus",
+    btnClear: "Löschen",
+    tabLog: "Log",
+    tabArch: "Archiv",
+    tabCust: "Kunden",
+    tabTrail: "Flotte",
+    tabSett: "Option",
+    archTitle: "Archiv"
+  }
 };
 
 const STORAGE_KEYS = {
-    logs: 'truck_logs',
-    archive: 'truck_archive',
-    customers: 'truck_customers',
-    trailers: 'truck_trailers',
-    settings: 'truck_settings',
-    lang: 'truck_lang',
-    theme: 'truck_theme'
+  logs: 'truck_logs',
+  archive: 'truck_archive',
+  customers: 'truck_customers',
+  trailers: 'truck_trailers',
+  settings: 'truck_settings',
+  lang: 'truck_lang',
+  theme: 'truck_theme'
 };
 
 let logs = JSON.parse(localStorage.getItem(STORAGE_KEYS.logs)) || [];
@@ -603,10 +618,10 @@ let archive = JSON.parse(localStorage.getItem(STORAGE_KEYS.archive)) || [];
 let customers = JSON.parse(localStorage.getItem(STORAGE_KEYS.customers)) || [];
 let trailers = JSON.parse(localStorage.getItem(STORAGE_KEYS.trailers)) || [];
 let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.settings)) || {
-    rateMile: 0.65,
-    rateDrop: 100,
-    rateWait: 25,
-    driverName: "Marian"
+  rateMile: 0.65,
+  rateDrop: 100,
+  rateWait: 25,
+  driverName: "Marian"
 };
 
 let currentLang = localStorage.getItem(STORAGE_KEYS.lang) || 'EN';
@@ -617,762 +632,971 @@ let archiveFilterStart = '';
 let archiveFilterEnd = '';
 
 function saveAll() {
-    localStorage.setItem(STORAGE_KEYS.logs, JSON.stringify(logs));
-    localStorage.setItem(STORAGE_KEYS.archive, JSON.stringify(archive));
-    localStorage.setItem(STORAGE_KEYS.customers, JSON.stringify(customers));
-    localStorage.setItem(STORAGE_KEYS.trailers, JSON.stringify(trailers));
-    localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
+  localStorage.setItem(STORAGE_KEYS.logs, JSON.stringify(logs));
+  localStorage.setItem(STORAGE_KEYS.archive, JSON.stringify(archive));
+  localStorage.setItem(STORAGE_KEYS.customers, JSON.stringify(customers));
+  localStorage.setItem(STORAGE_KEYS.trailers, JSON.stringify(trailers));
+  localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
 }
 
 function toggleLang() {
-    currentLang = currentLang === 'EN' ? 'DE' : 'EN';
-    applyLang();
+  currentLang = currentLang === 'EN' ? 'DE' : 'EN';
+  applyLang();
 }
 
 function applyLang() {
-    localStorage.setItem(STORAGE_KEYS.lang, currentLang);
-    document.getElementById('langBtn').innerText = currentLang;
-    const dict = translations[currentLang];
+  localStorage.setItem(STORAGE_KEYS.lang, currentLang);
+  document.getElementById('langBtn').innerText = currentLang;
+  const dict = translations[currentLang];
 
-    document.querySelectorAll('[data-i18n]').forEach(function(el) {
-        el.innerText = dict[el.getAttribute('data-i18n')] || el.innerText;
-    });
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    el.innerText = dict[el.getAttribute('data-i18n')] || el.innerText;
+  });
 
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
-        el.placeholder = dict[el.getAttribute('data-i18n-placeholder')] || el.placeholder;
-    });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+    el.placeholder = dict[el.getAttribute('data-i18n-placeholder')] || el.placeholder;
+  });
 }
 
 function setUnit(u) {
-    inputUnit = u;
-    document.getElementById('btnMi').className = u === 'mi' ? 'active' : '';
-    document.getElementById('btnKm').className = u === 'km' ? 'active' : '';
+  inputUnit = u;
+  document.getElementById('btnMi').className = u === 'mi' ? 'active' : '';
+  document.getElementById('btnKm').className = u === 'km' ? 'active' : '';
+}
+
+function toggleCustomerHoursFields() {
+  const type = document.getElementById('custHoursType').value;
+  document.getElementById('custHoursNormalWrap').style.display = type === 'normal' ? 'block' : 'none';
+}
+
+function buildCustomerHours(hoursType, openTime, closeTime) {
+  if (hoursType === '24h') return '24h';
+  if (hoursType === 'fcfs') return 'FCFS';
+  if (hoursType === 'closed') return 'Closed';
+  if (hoursType === 'appointment') return 'By appointment';
+  if (hoursType === 'normal') {
+    if (openTime && closeTime) return openTime + ' - ' + closeTime;
+    return '';
+  }
+  return '';
 }
 
 function handleSearchInput(inputId, clearId) {
-    const val = document.getElementById(inputId).value;
-    document.getElementById(clearId).style.display = val ? 'flex' : 'none';
-    render();
+  const val = document.getElementById(inputId).value;
+  document.getElementById(clearId).style.display = val ? 'flex' : 'none';
+  render();
 }
 
 function clearSearch(inputId, clearId) {
-    document.getElementById(inputId).value = '';
-    document.getElementById(clearId).style.display = 'none';
-    render();
+  document.getElementById(inputId).value = '';
+  document.getElementById(clearId).style.display = 'none';
+  render();
 }
 
 function formatMoney(num) {
-    return '$' + Number(num || 0).toFixed(2);
+  return '$' + Number(num || 0).toFixed(2);
 }
 
 function formatPeriodFromLogs(logItems) {
-    const validDates = logItems.map(function(l) { return new Date(l.date); }).filter(function(d) { return !isNaN(d); });
-    if (!validDates.length) return 'Unknown period';
+  const validDates = logItems.map(function(l) { return new Date(l.date); }).filter(function(d) { return !isNaN(d); });
+  if (!validDates.length) return 'Unknown period';
 
-    const start = new Date(Math.min.apply(null, validDates));
-    const end = new Date(Math.max.apply(null, validDates));
+  const start = new Date(Math.min.apply(null, validDates));
+  const end = new Date(Math.max.apply(null, validDates));
 
-    function fmt(d) {
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        const yy = d.getFullYear();
-        return mm + '/' + dd + '/' + yy;
-    }
+  function fmt(d) {
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const yy = d.getFullYear();
+    return mm + '/' + dd + '/' + yy;
+  }
 
-    return fmt(start) + ' - ' + fmt(end);
+  return fmt(start) + ' - ' + fmt(end);
 }
 
 function calcEntryPayWithRates(miles, loads, wait, rates) {
-    const m = parseFloat(miles) || 0;
-    const l = parseFloat(loads) || 0;
-    const w = parseFloat(wait) || 0;
-    return ((m * (rates.rateMile || 0)) + (l * (rates.rateDrop || 0)) + (w * (rates.rateWait || 0))).toFixed(2);
+  const m = parseFloat(miles) || 0;
+  const l = parseFloat(loads) || 0;
+  const w = parseFloat(wait) || 0;
+  return ((m * (rates.rateMile || 0)) + (l * (rates.rateDrop || 0)) + (w * (rates.rateWait || 0))).toFixed(2);
 }
 
 function calcEntryPay(miles, loads, wait) {
-    return calcEntryPayWithRates(miles, loads, wait, settings);
+  return calcEntryPayWithRates(miles, loads, wait, settings);
 }
 
 function addEntry() {
-    const entryDate = document.getElementById('entryDate').value;
-    if (!entryDate) {
-        alert("Please select a date");
-        return;
-    }
+  const entryDate = document.getElementById('entryDate').value;
+  if (!entryDate) {
+    alert("Please select a date");
+    return;
+  }
 
-    let dist = parseFloat(document.getElementById('distance').value) || 0;
-    const miles = inputUnit === 'km' ? (dist / 1.60934) : dist;
-    let loads = parseFloat(document.getElementById('loads').value) || 0;
-    let wait = parseFloat(document.getElementById('waiting').value) || 0;
+  let dist = parseFloat(document.getElementById('distance').value) || 0;
+  const miles = inputUnit === 'km' ? (dist / 1.60934) : dist;
+  let loads = parseFloat(document.getElementById('loads').value) || 0;
+  let wait = parseFloat(document.getElementById('waiting').value) || 0;
 
-    logs.push({
-        id: Date.now(),
-        date: entryDate,
-        miles: Number(miles.toFixed(1)),
-        loads: loads,
-        wait: wait,
-        total: calcEntryPay(miles, loads, wait)
-    });
+  logs.push({
+    id: Date.now(),
+    date: entryDate,
+    miles: Number(miles.toFixed(1)),
+    loads: loads,
+    wait: wait,
+    total: calcEntryPay(miles, loads, wait)
+  });
 
-    document.getElementById('distance').value = '';
-    document.getElementById('loads').value = '';
-    document.getElementById('waiting').value = '';
+  document.getElementById('distance').value = '';
+  document.getElementById('loads').value = '';
+  document.getElementById('waiting').value = '';
 
-    saveAll();
-    render();
+  saveAll();
+  render();
 }
 
 function render() {
-    let weekTotal = 0;
+  let weekTotal = 0;
 
-    document.getElementById('logBody').innerHTML = logs
-        .slice()
-        .sort(function(a, b) { return new Date(b.date) - new Date(a.date); })
-        .map(function(l) {
-            weekTotal += parseFloat(l.total);
-            return '<tr>' +
-                '<td>' + l.date + '</td>' +
-                '<td>' + l.miles + '</td>' +
-                '<td>' + l.loads + '</td>' +
-                '<td>' + formatMoney(l.total) + '</td>' +
-                '<td class="action-btns">' +
-                    '<button class="btn-icon" onclick="editCurrentLog(' + l.id + ')" type="button">✏️</button>' +
-                    '<button class="btn-icon" onclick="deleteCurrentLog(' + l.id + ')" type="button">🗑️</button>' +
-                '</td>' +
-            '</tr>';
-        }).join('');
+  document.getElementById('logBody').innerHTML = logs
+    .slice()
+    .sort(function(a, b) { return new Date(b.date) - new Date(a.date); })
+    .map(function(l) {
+      weekTotal += parseFloat(l.total);
+      return '<tr>' +
+        '<td>' + l.date + '</td>' +
+        '<td>' + l.miles + '</td>' +
+        '<td>' + l.loads + '</td>' +
+        '<td>' + formatMoney(l.total) + '</td>' +
+        '<td class="action-btns">' +
+          '<button class="btn-icon" onclick="editCurrentLog(' + l.id + ')" type="button">✏️</button>' +
+          '<button class="btn-icon" onclick="deleteCurrentLog(' + l.id + ')" type="button">🗑️</button>' +
+        '</td>' +
+      '</tr>';
+    }).join('');
 
-    document.getElementById('weekTotalDisplay').innerText = formatMoney(weekTotal);
+  document.getElementById('weekTotalDisplay').innerText = formatMoney(weekTotal);
 
-    renderArchive();
-    renderCustomers();
-    renderTrailers();
+  renderArchive();
+  renderCustomers();
+  renderTrailers();
 }
 
 function getArchiveEntriesRange(week) {
-    const dates = week.entries.map(function(e) { return new Date(e.date); }).filter(function(d) { return !isNaN(d); });
-    if (!dates.length) return null;
-    return {
-        start: new Date(Math.min.apply(null, dates)),
-        end: new Date(Math.max.apply(null, dates))
-    };
+  const dates = week.entries.map(function(e) { return new Date(e.date); }).filter(function(d) { return !isNaN(d); });
+  if (!dates.length) return null;
+  return {
+    start: new Date(Math.min.apply(null, dates)),
+    end: new Date(Math.max.apply(null, dates))
+  };
 }
 
 function weekMatchesFilter(week) {
-    const range = getArchiveEntriesRange(week);
-    if (!range) return false;
+  const range = getArchiveEntriesRange(week);
+  if (!range) return false;
 
-    const filterStart = archiveFilterStart ? new Date(archiveFilterStart) : null;
-    const filterEnd = archiveFilterEnd ? new Date(archiveFilterEnd) : null;
+  const filterStart = archiveFilterStart ? new Date(archiveFilterStart) : null;
+  const filterEnd = archiveFilterEnd ? new Date(archiveFilterEnd) : null;
 
-    if (filterStart && range.end < filterStart) return false;
-    if (filterEnd && range.start > filterEnd) return false;
-    return true;
+  if (filterStart && range.end < filterStart) return false;
+  if (filterEnd && range.start > filterEnd) return false;
+  return true;
 }
 
 function getFilteredArchive() {
-    return archive.filter(function(week) {
-        return weekMatchesFilter(week);
-    });
+  return archive.filter(function(week) {
+    return weekMatchesFilter(week);
+  });
 }
 
 function applyArchiveFilter() {
-    archiveFilterStart = document.getElementById('archStart').value || '';
-    archiveFilterEnd = document.getElementById('archEnd').value || '';
-    renderArchive();
+  archiveFilterStart = document.getElementById('archStart').value || '';
+  archiveFilterEnd = document.getElementById('archEnd').value || '';
+  renderArchive();
 }
 
 function resetArchiveFilter() {
-    archiveFilterStart = '';
-    archiveFilterEnd = '';
-    document.getElementById('archStart').value = '';
-    document.getElementById('archEnd').value = '';
-    renderArchive();
+  archiveFilterStart = '';
+  archiveFilterEnd = '';
+  document.getElementById('archStart').value = '';
+  document.getElementById('archEnd').value = '';
+  renderArchive();
 }
 
 function renderArchive() {
-    const archDiv = document.getElementById('archiveList');
-    const filteredArchive = getFilteredArchive();
+  const archDiv = document.getElementById('archiveList');
+  const filteredArchive = getFilteredArchive();
 
-    if (!filteredArchive.length) {
-        archDiv.innerHTML = '<div class="card">No archived data for selected filter.</div>';
-        return;
-    }
+  if (!filteredArchive.length) {
+    archDiv.innerHTML = '<div class="card">No archived data for selected filter.</div>';
+    return;
+  }
 
-    if (archFilter === 'weeks') {
-        let html = '<div class="card"><table><thead><tr><th>Week Period</th><th>Entries</th><th>Total</th><th>Rates</th></tr></thead><tbody>';
-        html += filteredArchive.slice().reverse().map(function(a) {
-            const total = a.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
-            const rates = a.rates
-                ? '$' + a.rates.rateMile + '/mile | $' + a.rates.rateDrop + '/drop | $' + a.rates.rateWait + '/hr'
-                : '-';
+  if (archFilter === 'weeks') {
+    let html = '<div class="card"><table><thead><tr><th>Week Period</th><th>Entries</th><th>Total</th><th>Rates</th></tr></thead><tbody>';
+    html += filteredArchive.slice().reverse().map(function(a) {
+      const total = a.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
+      const rates = a.rates
+        ? '$' + a.rates.rateMile + '/mile | $' + a.rates.rateDrop + '/drop | $' + a.rates.rateWait + '/hr'
+        : '-';
 
-            return '<tr class="clickable-row" onclick="openArchiveWeekDetail(' + a.id + ')">' +
-                '<td>' + a.period + '</td>' +
-                '<td>' + a.entries.length + '</td>' +
-                '<td>' + formatMoney(total) + '</td>' +
-                '<td>' + rates + '</td>' +
-            '</tr>';
-        }).join('');
-        html += '</tbody></table></div>';
-        archDiv.innerHTML = html;
-    }
+      return '<tr class="clickable-row" onclick="openArchiveWeekDetail(' + a.id + ')">' +
+        '<td>' + a.period + '</td>' +
+        '<td>' + a.entries.length + '</td>' +
+        '<td>' + formatMoney(total) + '</td>' +
+        '<td>' + rates + '</td>' +
+      '</tr>';
+    }).join('');
+    html += '</tbody></table></div>';
+    archDiv.innerHTML = html;
+  }
 
-    if (archFilter === 'months') {
-        const grouped = {};
+  if (archFilter === 'months') {
+    const grouped = {};
 
-        filteredArchive.forEach(function(a) {
-            const range = getArchiveEntriesRange(a);
-            if (!range) return;
-            const d = range.start;
-            const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    filteredArchive.forEach(function(a) {
+      const range = getArchiveEntriesRange(a);
+      if (!range) return;
+      const d = range.start;
+      const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
 
-            if (!grouped[key]) grouped[key] = [];
-            grouped[key].push(a);
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(a);
+    });
+
+    const keys = Object.keys(grouped).sort().reverse();
+
+    let html = '<div class="card"><table><thead><tr><th>Month</th><th>Weeks</th><th>Total</th></tr></thead><tbody>';
+    html += keys.map(function(key) {
+      const weeks = grouped[key];
+      const total = weeks.reduce(function(sum, w) {
+        return sum + w.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
+      }, 0);
+
+      return '<tr class="clickable-row" onclick="openArchiveMonthDetail(\'' + key + '\')">' +
+        '<td>' + key + '</td>' +
+        '<td>' + weeks.length + '</td>' +
+        '<td>' + formatMoney(total) + '</td>' +
+      '</tr>';
+    }).join('');
+    html += '</tbody></table></div>';
+    archDiv.innerHTML = html;
+  }
+
+  if (archFilter === 'years') {
+    const grouped = {};
+
+    filteredArchive.forEach(function(a) {
+      const range = getArchiveEntriesRange(a);
+      if (!range) return;
+      const d = range.start;
+      const key = String(d.getFullYear());
+
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(a);
+    });
+
+    const keys = Object.keys(grouped).sort().reverse();
+
+    let html = '<div class="card"><table><thead><tr><th>Year</th><th>Months</th><th>Total</th></tr></thead><tbody>';
+    html += keys.map(function(key) {
+      const weeks = grouped[key];
+      const monthsSet = {};
+      let total = 0;
+
+      weeks.forEach(function(w) {
+        w.entries.forEach(function(e) {
+          const d = new Date(e.date);
+          if (!isNaN(d)) {
+            const monthKey = String(d.getMonth() + 1).padStart(2, '0');
+            monthsSet[monthKey] = true;
+          }
+          total += parseFloat(e.total || 0);
         });
+      });
 
-        const keys = Object.keys(grouped).sort().reverse();
-
-        let html = '<div class="card"><table><thead><tr><th>Month</th><th>Weeks</th><th>Total</th></tr></thead><tbody>';
-        html += keys.map(function(key) {
-            const weeks = grouped[key];
-            const total = weeks.reduce(function(sum, w) {
-                return sum + w.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
-            }, 0);
-
-            return '<tr class="clickable-row" onclick="openArchiveMonthDetail(\'' + key + '\')">' +
-                '<td>' + key + '</td>' +
-                '<td>' + weeks.length + '</td>' +
-                '<td>' + formatMoney(total) + '</td>' +
-            '</tr>';
-        }).join('');
-        html += '</tbody></table></div>';
-        archDiv.innerHTML = html;
-    }
-
-    if (archFilter === 'years') {
-        const grouped = {};
-
-        filteredArchive.forEach(function(a) {
-            const range = getArchiveEntriesRange(a);
-            if (!range) return;
-            const d = range.start;
-            const key = String(d.getFullYear());
-
-            if (!grouped[key]) grouped[key] = [];
-            grouped[key].push(a);
-        });
-
-        const keys = Object.keys(grouped).sort().reverse();
-
-        let html = '<div class="card"><table><thead><tr><th>Year</th><th>Months</th><th>Total</th></tr></thead><tbody>';
-        html += keys.map(function(key) {
-            const weeks = grouped[key];
-            const monthsSet = {};
-            let total = 0;
-
-            weeks.forEach(function(w) {
-                w.entries.forEach(function(e) {
-                    const d = new Date(e.date);
-                    if (!isNaN(d)) {
-                        const monthKey = String(d.getMonth() + 1).padStart(2, '0');
-                        monthsSet[monthKey] = true;
-                    }
-                    total += parseFloat(e.total || 0);
-                });
-            });
-
-            return '<tr class="clickable-row" onclick="openArchiveYearDetail(\'' + key + '\')">' +
-                '<td>' + key + '</td>' +
-                '<td>' + Object.keys(monthsSet).length + '</td>' +
-                '<td>' + formatMoney(total) + '</td>' +
-            '</tr>';
-        }).join('');
-        html += '</tbody></table></div>';
-        archDiv.innerHTML = html;
-    }
+      return '<tr class="clickable-row" onclick="openArchiveYearDetail(\'' + key + '\')">' +
+        '<td>' + key + '</td>' +
+        '<td>' + Object.keys(monthsSet).length + '</td>' +
+        '<td>' + formatMoney(total) + '</td>' +
+      '</tr>';
+    }).join('');
+    html += '</tbody></table></div>';
+    archDiv.innerHTML = html;
+  }
 }
 
 function openArchiveWeekDetail(id) {
-    const week = archive.find(function(a) { return a.id === id; });
-    if (!week) return;
+  const week = archive.find(function(a) { return a.id === id; });
+  if (!week) return;
 
-    const total = week.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
-    const rates = week.rates
-        ? '$' + week.rates.rateMile + '/mile | $' + week.rates.rateDrop + '/drop | $' + week.rates.rateWait + '/hr'
-        : '-';
+  const total = week.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
+  const rates = week.rates
+    ? '$' + week.rates.rateMile + '/mile | $' + week.rates.rateDrop + '/drop | $' + week.rates.rateWait + '/hr'
+    : '-';
 
-    let html = '<div class="card">';
-    html += '<div><strong>Period:</strong> ' + week.period + '</div>';
-    html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
-    html += '<div><strong>Rates:</strong> ' + rates + '</div>';
-    html += '</div>';
+  let html = '<div class="card">';
+  html += '<div><strong>Period:</strong> ' + week.period + '</div>';
+  html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
+  html += '<div><strong>Rates:</strong> ' + rates + '</div>';
+  html += '</div>';
 
-    html += '<div class="card"><table><thead><tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr></thead><tbody>';
-    html += week.entries.slice().sort(function(a, b) { return new Date(a.date) - new Date(b.date); }).map(function(e) {
-        return '<tr>' +
-            '<td>' + e.date + '</td>' +
-            '<td>' + e.miles + '</td>' +
-            '<td>' + e.loads + '</td>' +
-            '<td>' + e.wait + '</td>' +
-            '<td>' + formatMoney(e.total) + '</td>' +
-        '</tr>';
-    }).join('');
-    html += '</tbody></table></div>';
+  html += '<div class="card"><table><thead><tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr></thead><tbody>';
+  html += week.entries.slice().sort(function(a, b) { return new Date(a.date) - new Date(b.date); }).map(function(e) {
+    return '<tr>' +
+      '<td>' + e.date + '</td>' +
+      '<td>' + e.miles + '</td>' +
+      '<td>' + e.loads + '</td>' +
+      '<td>' + e.wait + '</td>' +
+      '<td>' + formatMoney(e.total) + '</td>' +
+    '</tr>';
+  }).join('');
+  html += '</tbody></table></div>';
 
-    document.getElementById('archiveDetailTitle').innerText = 'Week Details';
-    document.getElementById('archiveDetailBody').innerHTML = html;
-    document.getElementById('archiveDetailModal').style.display = 'flex';
+  html += '<div class="btn-row">';
+  html += '<button class="warning" type="button" onclick="editArchivedWeek(' + week.id + ')">Edit Week</button>';
+  html += '<button class="danger" type="button" onclick="deleteArchivedWeekFromDetail(' + week.id + ')">Delete Week</button>';
+  html += '</div>';
+
+  document.getElementById('archiveDetailTitle').innerText = 'Week Details';
+  document.getElementById('archiveDetailBody').innerHTML = html;
+  document.getElementById('archiveDetailModal').style.display = 'flex';
 }
 
 function openArchiveMonthDetail(monthKey) {
-    const filteredArchive = getFilteredArchive();
-    const weeks = filteredArchive.filter(function(a) {
-        const range = getArchiveEntriesRange(a);
-        if (!range) return false;
-        const d = range.start;
-        const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
-        return key === monthKey;
-    });
+  const filteredArchive = getFilteredArchive();
+  const weeks = filteredArchive.filter(function(a) {
+    const range = getArchiveEntriesRange(a);
+    if (!range) return false;
+    const d = range.start;
+    const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    return key === monthKey;
+  });
 
-    const total = weeks.reduce(function(sum, w) {
-        return sum + w.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
-    }, 0);
+  const total = weeks.reduce(function(sum, w) {
+    return sum + w.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
+  }, 0);
 
-    let html = '<div class="card">';
-    html += '<div><strong>Month:</strong> ' + monthKey + '</div>';
-    html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
-    html += '</div>';
+  let html = '<div class="card">';
+  html += '<div><strong>Month:</strong> ' + monthKey + '</div>';
+  html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
+  html += '</div>';
 
-    html += '<div class="card"><table><thead><tr><th>Week Period</th><th>Entries</th><th>Total</th></tr></thead><tbody>';
-    html += weeks.slice().reverse().map(function(w) {
-        const weekTotal = w.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
-        return '<tr class="clickable-row" onclick="openArchiveWeekDetail(' + w.id + ')">' +
-            '<td>' + w.period + '</td>' +
-            '<td>' + w.entries.length + '</td>' +
-            '<td>' + formatMoney(weekTotal) + '</td>' +
-        '</tr>';
-    }).join('');
-    html += '</tbody></table></div>';
+  html += '<div class="card"><table><thead><tr><th>Week Period</th><th>Entries</th><th>Total</th></tr></thead><tbody>';
+  html += weeks.slice().reverse().map(function(w) {
+    const weekTotal = w.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
+    return '<tr class="clickable-row" onclick="openArchiveWeekDetail(' + w.id + ')">' +
+      '<td>' + w.period + '</td>' +
+      '<td>' + w.entries.length + '</td>' +
+      '<td>' + formatMoney(weekTotal) + '</td>' +
+    '</tr>';
+  }).join('');
+  html += '</tbody></table></div>';
 
-    document.getElementById('archiveDetailTitle').innerText = 'Month Details';
-    document.getElementById('archiveDetailBody').innerHTML = html;
-    document.getElementById('archiveDetailModal').style.display = 'flex';
+  document.getElementById('archiveDetailTitle').innerText = 'Month Details';
+  document.getElementById('archiveDetailBody').innerHTML = html;
+  document.getElementById('archiveDetailModal').style.display = 'flex';
 }
 
 function openArchiveYearDetail(yearKey) {
-    const filteredArchive = getFilteredArchive();
-    const monthTotals = {};
+  const filteredArchive = getFilteredArchive();
+  const monthTotals = {};
 
-    filteredArchive.forEach(function(w) {
-        w.entries.forEach(function(e) {
-            const d = new Date(e.date);
-            if (isNaN(d)) return;
-            if (String(d.getFullYear()) !== yearKey) return;
+  filteredArchive.forEach(function(w) {
+    w.entries.forEach(function(e) {
+      const d = new Date(e.date);
+      if (isNaN(d)) return;
+      if (String(d.getFullYear()) !== yearKey) return;
 
-            const monthKey = String(d.getMonth() + 1).padStart(2, '0');
-            monthTotals[monthKey] = (monthTotals[monthKey] || 0) + parseFloat(e.total || 0);
-        });
+      const monthKey = String(d.getMonth() + 1).padStart(2, '0');
+      monthTotals[monthKey] = (monthTotals[monthKey] || 0) + parseFloat(e.total || 0);
+    });
+  });
+
+  const months = Object.keys(monthTotals).sort();
+  const total = months.reduce(function(sum, m) { return sum + monthTotals[m]; }, 0);
+
+  let html = '<div class="card">';
+  html += '<div><strong>Year:</strong> ' + yearKey + '</div>';
+  html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
+  html += '</div>';
+
+  html += '<div class="card"><table><thead><tr><th>Month</th><th>Total</th></tr></thead><tbody>';
+  html += months.map(function(m) {
+    const fullKey = yearKey + '-' + m;
+    return '<tr class="clickable-row" onclick="openArchiveMonthDetail(\'' + fullKey + '\')">' +
+      '<td>' + fullKey + '</td>' +
+      '<td>' + formatMoney(monthTotals[m]) + '</td>' +
+    '</tr>';
+  }).join('');
+  html += '</tbody></table></div>';
+
+  document.getElementById('archiveDetailTitle').innerText = 'Year Details';
+  document.getElementById('archiveDetailBody').innerHTML = html;
+  document.getElementById('archiveDetailModal').style.display = 'flex';
+}
+
+function editArchivedWeek(id) {
+  closeModal('archiveDetailModal');
+  const week = archive.find(function(a) { return a.id === id; });
+  if (!week) return;
+
+  currentEditingId = id;
+  document.getElementById('modalTitle').innerText = week.period;
+
+  let rateInfo = '';
+  if (week.rates) {
+    rateInfo = '<div class="card" style="margin-bottom:15px;">' +
+      '<strong>Archived rates</strong><br>' +
+      '<div class="small">$' + week.rates.rateMile + '/mile | $' + week.rates.rateDrop + '/drop | $' + week.rates.rateWait + '/hr</div>' +
+      '</div>';
+  }
+
+  const rows = week.entries.map(function(e, i) {
+    return '<div style="border-bottom:1px solid var(--border); padding:10px 0;">' +
+      '<input type="date" value="' + e.date + '" onchange="updateArchEntry(' + i + ', \'date\', this.value)">' +
+      '<input type="number" value="' + e.miles + '" onchange="updateArchEntry(' + i + ', \'miles\', this.value)">' +
+      '<input type="number" value="' + e.loads + '" onchange="updateArchEntry(' + i + ', \'loads\', this.value)">' +
+      '<input type="number" value="' + e.wait + '" onchange="updateArchEntry(' + i + ', \'wait\', this.value)">' +
+      '</div>';
+  }).join('');
+
+  document.getElementById('modalBody').innerHTML = rateInfo + rows + '<button onclick="deleteWeek(' + id + ')" class="danger" style="margin-top:15px;" type="button">Delete Week</button>';
+  document.getElementById('editModal').style.display = 'flex';
+
+  document.getElementById('modalSaveBtn').onclick = function() {
+    const w = archive.find(function(a) { return a.id === id; });
+    if (!w) return;
+
+    w.period = formatPeriodFromLogs(w.entries);
+    const rates = w.rates || settings;
+    w.entries.forEach(function(e) {
+      e.total = calcEntryPayWithRates(e.miles, e.loads, e.wait, rates);
     });
 
-    const months = Object.keys(monthTotals).sort();
-    const total = months.reduce(function(sum, m) { return sum + monthTotals[m]; }, 0);
+    saveAll();
+    render();
+    closeModal('editModal');
+  };
+}
 
-    let html = '<div class="card">';
-    html += '<div><strong>Year:</strong> ' + yearKey + '</div>';
-    html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
-    html += '</div>';
+function updateArchEntry(i, field, val) {
+  const week = archive.find(function(a) { return a.id === currentEditingId; });
+  if (!week || !week.entries[i]) return;
 
-    html += '<div class="card"><table><thead><tr><th>Month</th><th>Total</th></tr></thead><tbody>';
-    html += months.map(function(m) {
-        const fullKey = yearKey + '-' + m;
-        return '<tr class="clickable-row" onclick="openArchiveMonthDetail(\'' + fullKey + '\')">' +
-            '<td>' + fullKey + '</td>' +
-            '<td>' + formatMoney(monthTotals[m]) + '</td>' +
-        '</tr>';
-    }).join('');
-    html += '</tbody></table></div>';
+  if (field === 'miles' || field === 'loads' || field === 'wait') {
+    week.entries[i][field] = parseFloat(val) || 0;
+  } else {
+    week.entries[i][field] = val;
+  }
+}
 
-    document.getElementById('archiveDetailTitle').innerText = 'Year Details';
-    document.getElementById('archiveDetailBody').innerHTML = html;
-    document.getElementById('archiveDetailModal').style.display = 'flex';
+function deleteWeek(id) {
+  if (!confirm("Delete this archived week?")) return;
+  archive = archive.filter(function(a) { return a.id !== id; });
+  saveAll();
+  render();
+  closeModal('editModal');
+  closeModal('archiveDetailModal');
+}
+
+function deleteArchivedWeekFromDetail(id) {
+  if (!confirm("Delete this archived week?")) return;
+  archive = archive.filter(function(a) { return a.id !== id; });
+  saveAll();
+  render();
+  closeModal('archiveDetailModal');
 }
 
 function renderCustomers() {
-    const q = (document.getElementById('custSearch') ? document.getElementById('custSearch').value : '').toLowerCase();
-    document.getElementById('customerList').innerHTML = customers
-        .filter(function(c) {
-            return (c.name || '').toLowerCase().includes(q) ||
-                   (c.addr || '').toLowerCase().includes(q) ||
-                   (c.notes || '').toLowerCase().includes(q);
-        })
-        .map(function(c) {
-            return '<div class="card" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">' +
-                '<div>' +
-                    '<strong>' + escapeHtml(c.name) + '</strong><br>' +
-                    '<small>' + escapeHtml(c.addr || '') + '</small><br>' +
-                    '<small>' + escapeHtml(c.hours || '') + '</small>' +
-                '</div>' +
-                '<button class="btn-icon" onclick="deleteItem(\'cust\', ' + c.id + ')" type="button">🗑️</button>' +
-            '</div>';
-        }).join('');
+  const q = (document.getElementById('custSearch') ? document.getElementById('custSearch').value : '').toLowerCase();
+
+  document.getElementById('customerList').innerHTML = customers
+    .filter(function(c) {
+      return (c.name || '').toLowerCase().includes(q) ||
+             (c.addr || '').toLowerCase().includes(q) ||
+             (c.hours || '').toLowerCase().includes(q) ||
+             (c.notes || '').toLowerCase().includes(q);
+    })
+    .map(function(c) {
+      return '<div class="card">' +
+        '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">' +
+          '<div style="flex:1;">' +
+            '<strong>' + escapeHtml(c.name) + '</strong><br>' +
+            '<small><strong>Address:</strong> ' + escapeHtml(c.addr || '') + '</small><br>' +
+            '<small><strong>Hours:</strong> ' + escapeHtml(c.hours || '') + '</small><br>' +
+            '<small><strong>Notes:</strong> ' + escapeHtml(c.notes || '') + '</small>' +
+          '</div>' +
+          '<div class="action-btns">' +
+            '<button class="btn-icon" onclick="editCustomer(' + c.id + ')" type="button">✏️</button>' +
+            '<button class="btn-icon" onclick="deleteItem(\'cust\', ' + c.id + ')" type="button">🗑️</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
 }
 
 function renderTrailers() {
-    const q = (document.getElementById('trailSearch') ? document.getElementById('trailSearch').value : '').toLowerCase();
-    document.getElementById('trailerList').innerHTML = trailers
-        .filter(function(t) {
-            return (t.unit || '').toLowerCase().includes(q) ||
-                   (t.plate || '').toLowerCase().includes(q);
-        })
-        .map(function(t) {
-            return '<div class="card" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">' +
-                '<div>' +
-                    '<strong>' + escapeHtml(t.unit) + '</strong> | ' + escapeHtml(t.plate || '') + '<br>' +
-                    '<small>Max: ' + escapeHtml(t.max || '') + ' / PSI: ' + escapeHtml(t.psi || '') + '</small>' +
-                '</div>' +
-                '<button class="btn-icon" onclick="deleteItem(\'trail\', ' + t.id + ')" type="button">🗑️</button>' +
-            '</div>';
-        }).join('');
+  const q = (document.getElementById('trailSearch') ? document.getElementById('trailSearch').value : '').toLowerCase();
+
+  document.getElementById('trailerList').innerHTML = trailers
+    .filter(function(t) {
+      return (t.unit || '').toLowerCase().includes(q) ||
+             (t.plate || '').toLowerCase().includes(q) ||
+             (t.max || '').toLowerCase().includes(q) ||
+             (t.psi || '').toLowerCase().includes(q);
+    })
+    .map(function(t) {
+      return '<div class="card">' +
+        '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">' +
+          '<div style="flex:1;">' +
+            '<strong>Unit:</strong> ' + escapeHtml(t.unit) + '<br>' +
+            '<small><strong>Plate:</strong> ' + escapeHtml(t.plate || '') + '</small><br>' +
+            '<small><strong>Max Load:</strong> ' + escapeHtml(t.max || '') + '</small><br>' +
+            '<small><strong>PSI:</strong> ' + escapeHtml(t.psi || '') + '</small>' +
+          '</div>' +
+          '<div class="action-btns">' +
+            '<button class="btn-icon" onclick="editTrailer(' + t.id + ')" type="button">✏️</button>' +
+            '<button class="btn-icon" onclick="deleteItem(\'trail\', ' + t.id + ')" type="button">🗑️</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
 }
 
 function escapeHtml(str) {
-    return String(str == null ? '' : str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 function editCurrentLog(id) {
-    const entry = logs.find(function(l) { return l.id === id; });
-    if (!entry) return;
+  const entry = logs.find(function(l) { return l.id === id; });
+  if (!entry) return;
 
-    currentEditingId = id;
-    document.getElementById('modalTitle').innerText = "Edit Entry";
-    document.getElementById('modalBody').innerHTML =
-        '<input type="date" id="editDate" value="' + entry.date + '">' +
-        '<input type="number" id="editMiles" value="' + entry.miles + '">' +
-        '<input type="number" id="editLoads" value="' + entry.loads + '">' +
-        '<input type="number" id="editWait" value="' + entry.wait + '">';
+  currentEditingId = id;
+  document.getElementById('modalTitle').innerText = "Edit Entry";
+  document.getElementById('modalBody').innerHTML =
+    '<input type="date" id="editDate" value="' + entry.date + '">' +
+    '<input type="number" id="editMiles" value="' + entry.miles + '">' +
+    '<input type="number" id="editLoads" value="' + entry.loads + '">' +
+    '<input type="number" id="editWait" value="' + entry.wait + '">';
 
-    document.getElementById('editModal').style.display = 'flex';
-    document.getElementById('modalSaveBtn').onclick = function() {
-        entry.date = document.getElementById('editDate').value;
-        entry.miles = parseFloat(document.getElementById('editMiles').value) || 0;
-        entry.loads = parseFloat(document.getElementById('editLoads').value) || 0;
-        entry.wait = parseFloat(document.getElementById('editWait').value) || 0;
-        entry.total = calcEntryPay(entry.miles, entry.loads, entry.wait);
-        saveAll();
-        render();
-        closeModal('editModal');
-    };
+  document.getElementById('editModal').style.display = 'flex';
+  document.getElementById('modalSaveBtn').onclick = function() {
+    entry.date = document.getElementById('editDate').value;
+    entry.miles = parseFloat(document.getElementById('editMiles').value) || 0;
+    entry.loads = parseFloat(document.getElementById('editLoads').value) || 0;
+    entry.wait = parseFloat(document.getElementById('editWait').value) || 0;
+    entry.total = calcEntryPay(entry.miles, entry.loads, entry.wait);
+    saveAll();
+    render();
+    closeModal('editModal');
+  };
+}
+
+function editCustomer(id) {
+  const c = customers.find(function(x) { return x.id === id; });
+  if (!c) return;
+
+  currentEditingId = id;
+
+  const hoursType = c.hoursType || 'normal';
+  const openTime = c.openTime || '';
+  const closeTime = c.closeTime || '';
+
+  document.getElementById('modalTitle').innerText = 'Edit Customer';
+
+  let hoursFields = '';
+  hoursFields += '<label>Hours Type</label>';
+  hoursFields += '<select id="editCustHoursType" onchange="toggleEditCustomerHoursFields()">';
+  hoursFields += '<option value="normal"' + (hoursType === 'normal' ? ' selected' : '') + '>Normal</option>';
+  hoursFields += '<option value="24h"' + (hoursType === '24h' ? ' selected' : '') + '>24h</option>';
+  hoursFields += '<option value="fcfs"' + (hoursType === 'fcfs' ? ' selected' : '') + '>FCFS</option>';
+  hoursFields += '<option value="closed"' + (hoursType === 'closed' ? ' selected' : '') + '>Closed</option>';
+  hoursFields += '<option value="appointment"' + (hoursType === 'appointment' ? ' selected' : '') + '>By appointment</option>';
+  hoursFields += '</select>';
+
+  hoursFields += '<div id="editCustHoursNormalWrap" style="display:' + (hoursType === 'normal' ? 'block' : 'none') + ';">';
+  hoursFields += '<div class="btn-row">';
+  hoursFields += '<div><label>Open Time</label><input type="time" id="editCustOpenTime" value="' + openTime + '"></div>';
+  hoursFields += '<div><label>Close Time</label><input type="time" id="editCustCloseTime" value="' + closeTime + '"></div>';
+  hoursFields += '</div>';
+  hoursFields += '</div>';
+
+  document.getElementById('modalBody').innerHTML =
+    '<input type="text" id="editCustName" value="' + escapeHtml(c.name || '') + '">' +
+    '<input type="text" id="editCustAddress" value="' + escapeHtml(c.addr || '') + '">' +
+    hoursFields +
+    '<textarea id="editCustNotes">' + escapeHtml(c.notes || '') + '</textarea>';
+
+  document.getElementById('editModal').style.display = 'flex';
+
+  document.getElementById('modalSaveBtn').onclick = function() {
+    c.name = document.getElementById('editCustName').value.trim();
+    c.addr = document.getElementById('editCustAddress').value.trim();
+
+    c.hoursType = document.getElementById('editCustHoursType').value;
+    c.openTime = document.getElementById('editCustOpenTime') ? document.getElementById('editCustOpenTime').value : '';
+    c.closeTime = document.getElementById('editCustCloseTime') ? document.getElementById('editCustCloseTime').value : '';
+    c.hours = buildCustomerHours(c.hoursType, c.openTime, c.closeTime);
+
+    c.notes = document.getElementById('editCustNotes').value.trim();
+
+    saveAll();
+    render();
+    closeModal('editModal');
+  };
+}
+
+function toggleEditCustomerHoursFields() {
+  const el = document.getElementById('editCustHoursType');
+  const wrap = document.getElementById('editCustHoursNormalWrap');
+  if (!el || !wrap) return;
+  wrap.style.display = el.value === 'normal' ? 'block' : 'none';
+}
+
+function editTrailer(id) {
+  const t = trailers.find(function(x) { return x.id === id; });
+  if (!t) return;
+
+  currentEditingId = id;
+  document.getElementById('modalTitle').innerText = 'Edit Trailer';
+  document.getElementById('modalBody').innerHTML =
+    '<input type="text" id="editTrailUnit" value="' + escapeHtml(t.unit || '') + '">' +
+    '<input type="text" id="editTrailPlate" value="' + escapeHtml(t.plate || '') + '">' +
+    '<input type="number" id="editTrailMax" value="' + escapeHtml(t.max || '') + '">' +
+    '<input type="text" id="editTrailPsi" value="' + escapeHtml(t.psi || '') + '">';
+
+  document.getElementById('editModal').style.display = 'flex';
+  document.getElementById('modalSaveBtn').onclick = function() {
+    t.unit = document.getElementById('editTrailUnit').value.trim();
+    t.plate = document.getElementById('editTrailPlate').value.trim();
+    t.max = document.getElementById('editTrailMax').value.trim();
+    t.psi = document.getElementById('editTrailPsi').value.trim();
+    saveAll();
+    render();
+    closeModal('editModal');
+  };
 }
 
 function deleteCurrentLog(id) {
-    if (!confirm("Delete entry?")) return;
-    logs = logs.filter(function(l) { return l.id !== id; });
-    saveAll();
-    render();
+  if (!confirm("Delete entry?")) return;
+  logs = logs.filter(function(l) { return l.id !== id; });
+  saveAll();
+  render();
 }
 
 function finishWeek() {
-    if (!logs.length) {
-        alert("No current logs to archive.");
-        return;
-    }
+  if (!logs.length) {
+    alert("No current logs to archive.");
+    return;
+  }
 
-    archive.push({
-        id: Date.now(),
-        period: formatPeriodFromLogs(logs),
-        rates: {
-            rateMile: settings.rateMile,
-            rateDrop: settings.rateDrop,
-            rateWait: settings.rateWait
-        },
-        entries: JSON.parse(JSON.stringify(logs))
-    });
+  archive.push({
+    id: Date.now(),
+    period: formatPeriodFromLogs(logs),
+    rates: {
+      rateMile: settings.rateMile,
+      rateDrop: settings.rateDrop,
+      rateWait: settings.rateWait
+    },
+    entries: JSON.parse(JSON.stringify(logs))
+  });
 
-    logs = [];
-    saveAll();
-    render();
+  logs = [];
+  saveAll();
+  render();
 }
 
 function addItem(type) {
-    if (type === 'cust') {
-        const n = document.getElementById('custName');
-        const a = document.getElementById('custAddress');
-        const h = document.getElementById('custHours');
-        const no = document.getElementById('custNotes');
+  if (type === 'cust') {
+    const n = document.getElementById('custName');
+    const a = document.getElementById('custAddress');
+    const hoursType = document.getElementById('custHoursType').value;
+    const openTime = document.getElementById('custOpenTime').value;
+    const closeTime = document.getElementById('custCloseTime').value;
+    const no = document.getElementById('custNotes');
 
-        if (!n.value.trim()) return alert("Enter company name");
+    if (!n.value.trim()) return alert("Enter company name");
 
-        customers.push({
-            id: Date.now(),
-            name: n.value.trim(),
-            addr: a.value.trim(),
-            hours: h.value.trim(),
-            notes: no.value.trim()
-        });
+    const hoursText = buildCustomerHours(hoursType, openTime, closeTime);
 
-        n.value = '';
-        a.value = '';
-        h.value = '';
-        no.value = '';
-    }
+    customers.push({
+      id: Date.now(),
+      name: n.value.trim(),
+      addr: a.value.trim(),
+      hoursType: hoursType,
+      openTime: openTime,
+      closeTime: closeTime,
+      hours: hoursText,
+      notes: no.value.trim()
+    });
 
-    if (type === 'trail') {
-        const u = document.getElementById('trailUnit');
-        const p = document.getElementById('trailPlate');
-        const m = document.getElementById('trailMax');
-        const ps = document.getElementById('trailPsi');
+    n.value = '';
+    a.value = '';
+    document.getElementById('custHoursType').value = 'normal';
+    document.getElementById('custOpenTime').value = '';
+    document.getElementById('custCloseTime').value = '';
+    no.value = '';
+    toggleCustomerHoursFields();
+  }
 
-        if (!u.value.trim()) return alert("Enter unit number");
+  if (type === 'trail') {
+    const u = document.getElementById('trailUnit');
+    const p = document.getElementById('trailPlate');
+    const m = document.getElementById('trailMax');
+    const ps = document.getElementById('trailPsi');
 
-        trailers.push({
-            id: Date.now(),
-            unit: u.value.trim(),
-            plate: p.value.trim(),
-            max: m.value.trim(),
-            psi: ps.value.trim()
-        });
+    if (!u.value.trim()) return alert("Enter unit number");
 
-        u.value = '';
-        p.value = '';
-        m.value = '';
-        ps.value = '';
-    }
+    trailers.push({
+      id: Date.now(),
+      unit: u.value.trim(),
+      plate: p.value.trim(),
+      max: m.value.trim(),
+      psi: ps.value.trim()
+    });
 
-    saveAll();
-    render();
+    u.value = '';
+    p.value = '';
+    m.value = '';
+    ps.value = '';
+  }
+
+  saveAll();
+  render();
 }
 
 function deleteItem(type, id) {
-    if (!confirm("Delete item?")) return;
+  if (!confirm("Delete item?")) return;
 
-    if (type === 'cust') customers = customers.filter(function(c) { return c.id !== id; });
-    if (type === 'trail') trailers = trailers.filter(function(t) { return t.id !== id; });
+  if (type === 'cust') customers = customers.filter(function(c) { return c.id !== id; });
+  if (type === 'trail') trailers = trailers.filter(function(t) { return t.id !== id; });
 
-    saveAll();
-    render();
+  saveAll();
+  render();
 }
 
 function updateSettings() {
-    settings.rateMile = parseFloat(document.getElementById('rateMile').value) || 0;
-    settings.rateDrop = parseFloat(document.getElementById('rateDrop').value) || 0;
-    settings.rateWait = parseFloat(document.getElementById('rateWait').value) || 0;
-    settings.driverName = document.getElementById('driverName').value.trim();
-    localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
+  settings.rateMile = parseFloat(document.getElementById('rateMile').value) || 0;
+  settings.rateDrop = parseFloat(document.getElementById('rateDrop').value) || 0;
+  settings.rateWait = parseFloat(document.getElementById('rateWait').value) || 0;
+  settings.driverName = document.getElementById('driverName').value.trim();
+  localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
 
-    logs.forEach(function(e) {
-        e.total = calcEntryPay(e.miles, e.loads, e.wait);
-    });
+  logs.forEach(function(e) {
+    e.total = calcEntryPay(e.miles, e.loads, e.wait);
+  });
 
-    saveAll();
-    render();
+  saveAll();
+  render();
 }
 
 function showPage(id, el) {
-    document.getElementById('printArea').classList.remove('viewing');
-    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
-    el.classList.add('active');
+  document.getElementById('printArea').classList.remove('viewing');
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
 }
 
 function openPdfModal() {
-    document.getElementById('pdfModal').style.display = 'flex';
+  document.getElementById('pdfModal').style.display = 'flex';
 }
 
 function closeModal(id) {
-    document.getElementById(id).style.display = 'none';
+  document.getElementById(id).style.display = 'none';
 }
 
 function closeReport() {
-    document.getElementById('printArea').classList.remove('viewing');
+  document.getElementById('printArea').classList.remove('viewing');
 }
 
 function setArchFilter(f) {
-    archFilter = f;
-    document.getElementById('fWeeks').className = f === 'weeks' ? 'active' : '';
-    document.getElementById('fMonths').className = f === 'months' ? 'active' : '';
-    document.getElementById('fYears').className = f === 'years' ? 'active' : '';
-    renderArchive();
+  archFilter = f;
+  document.getElementById('fWeeks').className = f === 'weeks' ? 'active' : '';
+  document.getElementById('fMonths').className = f === 'months' ? 'active' : '';
+  document.getElementById('fYears').className = f === 'years' ? 'active' : '';
+  renderArchive();
 }
 
 function toggleTheme() {
-    const newTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    document.body.setAttribute('data-theme', newTheme);
-    localStorage.setItem(STORAGE_KEYS.theme, newTheme);
+  const newTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  document.body.setAttribute('data-theme', newTheme);
+  localStorage.setItem(STORAGE_KEYS.theme, newTheme);
 }
 
 function clearData() {
-    if (!confirm("Erase all app data?")) return;
+  if (!confirm("Erase all app data?")) return;
 
-    Object.keys(STORAGE_KEYS).forEach(function(key) {
-        localStorage.removeItem(STORAGE_KEYS[key]);
-    });
-    location.reload();
+  Object.keys(STORAGE_KEYS).forEach(function(key) {
+    localStorage.removeItem(STORAGE_KEYS[key]);
+  });
+  location.reload();
 }
 
 function exportBackup() {
-    const backup = {
-        version: '12.6',
-        exportedAt: new Date().toISOString(),
-        logs: logs,
-        archive: archive,
-        customers: customers,
-        trailers: trailers,
-        settings: settings,
-        lang: currentLang,
-        theme: document.body.getAttribute('data-theme') || 'light'
-    };
+  const backup = {
+    version: '12.8',
+    exportedAt: new Date().toISOString(),
+    logs: logs,
+    archive: archive,
+    customers: customers,
+    trailers: trailers,
+    settings: settings,
+    lang: currentLang,
+    theme: document.body.getAttribute('data-theme') || 'light'
+  };
 
-    downloadJson(backup, 'trucker-wallet-backup-' + new Date().toISOString().slice(0,10) + '.json');
+  downloadJson(backup, 'trucker-wallet-backup-' + new Date().toISOString().slice(0,10) + '.json');
 }
 
 function exportCurrentLogs() {
-    const data = {
-        version: '12.6-current-logs',
-        exportedAt: new Date().toISOString(),
-        logs: logs
-    };
-    downloadJson(data, 'trucker-current-logs-' + new Date().toISOString().slice(0,10) + '.json');
+  const data = {
+    version: '12.8-current-logs',
+    exportedAt: new Date().toISOString(),
+    logs: logs
+  };
+  downloadJson(data, 'trucker-current-logs-' + new Date().toISOString().slice(0,10) + '.json');
 }
 
 function downloadJson(data, fileName) {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 function importBackup(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+  const file = event.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const data = JSON.parse(e.target.result);
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
 
-            if (!confirm("Import backup and overwrite current app data?")) {
-                event.target.value = '';
-                return;
-            }
-
-            logs = Array.isArray(data.logs) ? data.logs : [];
-            archive = Array.isArray(data.archive) ? data.archive : [];
-            customers = Array.isArray(data.customers) ? data.customers : [];
-            trailers = Array.isArray(data.trailers) ? data.trailers : [];
-            settings = data.settings || { rateMile: 0.65, rateDrop: 100, rateWait: 25, driverName: "Marian" };
-            currentLang = data.lang || 'EN';
-
-            const importedTheme = data.theme || 'light';
-            document.body.setAttribute('data-theme', importedTheme);
-            localStorage.setItem(STORAGE_KEYS.theme, importedTheme);
-
-            saveAll();
-            applyLang();
-
-            document.getElementById('rateMile').value = settings.rateMile;
-            document.getElementById('rateDrop').value = settings.rateDrop;
-            document.getElementById('rateWait').value = settings.rateWait;
-            document.getElementById('driverName').value = settings.driverName || '';
-
-            render();
-            alert("Backup imported successfully.");
-        } catch (err) {
-            alert("Import failed. Invalid JSON file.");
-        }
-
+      if (!confirm("Import backup and overwrite current app data?")) {
         event.target.value = '';
-    };
+        return;
+      }
 
-    reader.readAsText(file);
+      logs = Array.isArray(data.logs) ? data.logs : [];
+      archive = Array.isArray(data.archive) ? data.archive : [];
+      customers = Array.isArray(data.customers) ? data.customers : [];
+      trailers = Array.isArray(data.trailers) ? data.trailers : [];
+      settings = data.settings || { rateMile: 0.65, rateDrop: 100, rateWait: 25, driverName: "Marian" };
+      currentLang = data.lang || 'EN';
+
+      const importedTheme = data.theme || 'light';
+      document.body.setAttribute('data-theme', importedTheme);
+      localStorage.setItem(STORAGE_KEYS.theme, importedTheme);
+
+      saveAll();
+      applyLang();
+
+      document.getElementById('rateMile').value = settings.rateMile;
+      document.getElementById('rateDrop').value = settings.rateDrop;
+      document.getElementById('rateWait').value = settings.rateWait;
+      document.getElementById('driverName').value = settings.driverName || '';
+
+      render();
+      alert("Backup imported successfully.");
+    } catch (err) {
+      alert("Import failed. Invalid JSON file.");
+    }
+
+    event.target.value = '';
+  };
+
+  reader.readAsText(file);
 }
 
 function generatePdf() {
-    const area = document.getElementById('printArea');
+  const area = document.getElementById('printArea');
 
-    let html = '';
-    html += '<div class="no-print" style="margin-bottom:20px; display:flex; gap:10px;">';
-    html += '<button onclick="closeReport()" style="background:#dc2626; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">✖ Close</button>';
-    html += '<button onclick="window.print()" style="background:#2563eb; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">🖨️ Print PDF</button>';
-    html += '</div>';
+  let html = '';
+  html += '<div class="no-print" style="margin-bottom:20px; display:flex; gap:10px;">';
+  html += '<button onclick="closeReport()" style="background:#dc2626; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">✖ Close</button>';
+  html += '<button onclick="window.print()" style="background:#2563eb; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">🖨️ Print PDF</button>';
+  html += '</div>';
 
-    html += '<h1>Trucker Wallet Report</h1>';
-    html += '<p>Driver: ' + escapeHtml(settings.driverName || '') + ' | Date: ' + new Date().toLocaleDateString() + '</p><hr>';
+  html += '<h1>Trucker Wallet Report</h1>';
+  html += '<p>Driver: ' + escapeHtml(settings.driverName || '') + ' | Date: ' + new Date().toLocaleDateString() + '</p><hr>';
 
-    if (document.getElementById('checkArch').checked) {
-        const s = new Date(document.getElementById('pdfStart').value || '2000-01-01');
-        const e = new Date(document.getElementById('pdfEnd').value || '2100-12-31');
+  if (document.getElementById('checkArch').checked) {
+    const s = new Date(document.getElementById('pdfStart').value || '2000-01-01');
+    const e = new Date(document.getElementById('pdfEnd').value || '2100-12-31');
 
-        html += '<h2>Archived Logs</h2>';
-        html += '<table border="1" style="width:100%; border-collapse:collapse;">';
-        html += '<tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr>';
+    html += '<h2>Archived Logs</h2>';
+    html += '<table border="1" style="width:100%; border-collapse:collapse;">';
+    html += '<tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr>';
 
-        let t = 0;
-        archive.forEach(function(a) {
-            a.entries.forEach(function(ent) {
-                const d = new Date(ent.date);
-                if (d >= s && d <= e) {
-                    html += '<tr>' +
-                        '<td>' + escapeHtml(ent.date) + '</td>' +
-                        '<td>' + escapeHtml(ent.miles) + '</td>' +
-                        '<td>' + escapeHtml(ent.loads) + '</td>' +
-                        '<td>' + escapeHtml(ent.wait) + '</td>' +
-                        '<td>' + formatMoney(ent.total) + '</td>' +
-                    '</tr>';
-                    t += parseFloat(ent.total || 0);
-                }
-            });
-        });
+    let t = 0;
+    archive.forEach(function(a) {
+      a.entries.forEach(function(ent) {
+        const d = new Date(ent.date);
+        if (d >= s && d <= e) {
+          html += '<tr>' +
+            '<td>' + escapeHtml(ent.date) + '</td>' +
+            '<td>' + escapeHtml(ent.miles) + '</td>' +
+            '<td>' + escapeHtml(ent.loads) + '</td>' +
+            '<td>' + escapeHtml(ent.wait) + '</td>' +
+            '<td>' + formatMoney(ent.total) + '</td>' +
+          '</tr>';
+          t += parseFloat(ent.total || 0);
+        }
+      });
+    });
 
-        html += '</table><h3>Total: ' + formatMoney(t) + '</h3>';
-    }
+    html += '</table><h3>Total: ' + formatMoney(t) + '</h3>';
+  }
 
-    if (document.getElementById('checkCust').checked) {
-        html += '<h2>Customers</h2>';
-        html += customers.map(function(c) {
-            return '<p>' +
-                '<strong>' + escapeHtml(c.name) + '</strong><br>' +
-                escapeHtml(c.addr) + '<br>' +
-                escapeHtml(c.hours) + '<br>' +
-                escapeHtml(c.notes) +
-            '</p>';
-        }).join('');
-    }
+  if (document.getElementById('checkCust').checked) {
+    html += '<h2>Customers</h2>';
+    html += customers.map(function(c) {
+      return '<p>' +
+        '<strong>' + escapeHtml(c.name) + '</strong><br>' +
+        'Address: ' + escapeHtml(c.addr || '') + '<br>' +
+        'Hours: ' + escapeHtml(c.hours || '') + '<br>' +
+        'Notes: ' + escapeHtml(c.notes || '') +
+      '</p>';
+    }).join('');
+  }
 
-    if (document.getElementById('checkTrail').checked) {
-        html += '<h2>Trailers</h2>';
-        html += trailers.map(function(t) {
-            return '<p>' +
-                'Unit ' + escapeHtml(t.unit) + ' | Plate: ' + escapeHtml(t.plate) +
-                ' | Max: ' + escapeHtml(t.max) + ' | PSI: ' + escapeHtml(t.psi) +
-            '</p>';
-        }).join('');
-    }
+  if (document.getElementById('checkTrail').checked) {
+    html += '<h2>Trailers</h2>';
+    html += trailers.map(function(t) {
+      return '<p>' +
+        'Unit ' + escapeHtml(t.unit) +
+        ' | Plate: ' + escapeHtml(t.plate) +
+        ' | Max: ' + escapeHtml(t.max) +
+        ' | PSI: ' + escapeHtml(t.psi) +
+      '</p>';
+    }).join('');
+  }
 
-    area.innerHTML = html;
-    area.classList.add('viewing');
-    closeModal('pdfModal');
+  area.innerHTML = html;
+  area.classList.add('viewing');
+  closeModal('pdfModal');
 }
 
 window.onclick = function(event) {
-    const pdfModal = document.getElementById('pdfModal');
-    const editModal = document.getElementById('editModal');
-    const archiveDetailModal = document.getElementById('archiveDetailModal');
+  const pdfModal = document.getElementById('pdfModal');
+  const editModal = document.getElementById('editModal');
+  const archiveDetailModal = document.getElementById('archiveDetailModal');
 
-    if (event.target === pdfModal) pdfModal.style.display = 'none';
-    if (event.target === editModal) editModal.style.display = 'none';
-    if (event.target === archiveDetailModal) archiveDetailModal.style.display = 'none';
+  if (event.target === pdfModal) pdfModal.style.display = 'none';
+  if (event.target === editModal) editModal.style.display = 'none';
+  if (event.target === archiveDetailModal) archiveDetailModal.style.display = 'none';
 };
 
 const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'light';
@@ -1384,15 +1608,16 @@ document.getElementById('rateDrop').value = settings.rateDrop;
 document.getElementById('rateWait').value = settings.rateWait;
 document.getElementById('driverName').value = settings.driverName || '';
 
+toggleCustomerHoursFields();
 applyLang();
 render();
 
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('./service-worker.js').catch(function(err) {
-            console.log('SW fail:', err);
-        });
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./service-worker.js').catch(function(err) {
+      console.log('SW fail:', err);
     });
+  });
 }
 </script>
 </body>
