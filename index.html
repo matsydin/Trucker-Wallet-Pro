@@ -88,6 +88,12 @@
       appearance: none;
     }
 
+    input[type="checkbox"] {
+      width: auto;
+      margin-right: 8px;
+      transform: scale(1.1);
+    }
+
     textarea {
       min-height: 90px;
       resize: vertical;
@@ -302,6 +308,21 @@
     .secondary { background: var(--secondary) !important; }
     .warning { background: var(--warning) !important; }
 
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+
+    .check-row label {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
     @media print {
       .no-print { display: none !important; }
       #printArea { display: block !important; position: static; padding: 0; }
@@ -329,8 +350,8 @@
 
       <div class="btn-row" style="margin-bottom:15px;">
         <button onclick="finishWeek()" class="success" data-i18n="btnEndWeek">Finish Week</button>
-        <button onclick="exportCurrentLogs()" class="warning" type="button">Export Logs</button>
-        <button onclick="openPdfModal()" class="secondary" type="button">📄 PDF</button>
+        <button onclick="exportCurrentLogs()" class="warning" type="button" data-i18n="exportLogs">Export Logs</button>
+        <button onclick="openPdfModal()" class="secondary" type="button">📄 <span data-i18n="pdfShort">PDF</span></button>
       </div>
 
       <div class="card">
@@ -352,10 +373,10 @@
           <thead>
             <tr>
               <th data-i18n="thDate">Date</th>
-              <th>Miles</th>
-              <th>P/D</th>
+              <th data-i18n="thMiles">Miles</th>
+              <th data-i18n="thPd">P/D</th>
               <th data-i18n="thTotal">Pay</th>
-              <th></th>
+              <th data-i18n="thActions">Actions</th>
             </tr>
           </thead>
           <tbody id="logBody"></tbody>
@@ -369,33 +390,33 @@
       <div class="card">
         <div class="btn-row">
           <div>
-            <label>From</label>
+            <label data-i18n="from">From</label>
             <input type="date" id="archStart">
           </div>
           <div>
-            <label>To</label>
+            <label data-i18n="to">To</label>
             <input type="date" id="archEnd">
           </div>
         </div>
         <div class="btn-row">
-          <button onclick="applyArchiveFilter()" type="button">Apply Filter</button>
-          <button onclick="resetArchiveFilter()" class="secondary" type="button">Reset</button>
+          <button onclick="applyArchiveFilter()" type="button" data-i18n="applyFilter">Apply Filter</button>
+          <button onclick="resetArchiveFilter()" class="secondary" type="button" data-i18n="reset">Reset</button>
         </div>
       </div>
 
       <div class="unit-toggle">
-        <button id="fWeeks" class="active" onclick="setArchFilter('weeks')" type="button">Weeks</button>
-        <button id="fMonths" onclick="setArchFilter('months')" type="button">Months</button>
-        <button id="fYears" onclick="setArchFilter('years')" type="button">Years</button>
+        <button id="fWeeks" class="active" onclick="setArchFilter('weeks')" type="button" data-i18n="weeks">Weeks</button>
+        <button id="fMonths" onclick="setArchFilter('months')" type="button" data-i18n="months">Months</button>
+        <button id="fYears" onclick="setArchFilter('years')" type="button" data-i18n="years">Years</button>
       </div>
 
       <div class="card">
         <div class="btn-row">
-          <button onclick="exportBackup()" class="secondary" type="button">Export Backup</button>
-          <button onclick="document.getElementById('importFile').click()" class="warning" type="button">Import Backup</button>
+          <button onclick="exportBackup()" class="secondary" type="button" data-i18n="exportBackup">Export Backup</button>
+          <button onclick="document.getElementById('importFile').click()" class="warning" type="button" data-i18n="importBackup">Import Backup</button>
         </div>
         <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
-        <div class="small">Backup includes logs, archive, customers, trailers, settings, language and theme.</div>
+        <div class="small" data-i18n="backupInfo">Backup includes logs, archive, customers, trailers, settings, language and theme.</div>
       </div>
 
       <div id="archiveList"></div>
@@ -410,32 +431,30 @@
       </div>
 
       <div class="card">
-        <input type="text" id="custName" placeholder="Company Name">
-        <input type="text" id="custAddress" placeholder="Address">
+        <input type="text" id="custName" data-i18n-placeholder="companyName" placeholder="Company Name">
+        <input type="text" id="custAddress" data-i18n-placeholder="address" placeholder="Address">
 
-        <label>Hours Type</label>
-        <select id="custHoursType" onchange="toggleCustomerHoursFields()">
-          <option value="normal">Normal</option>
-          <option value="24h">24h</option>
-          <option value="fcfs">FCFS</option>
-          <option value="closed">Closed</option>
-          <option value="appointment">By appointment</option>
-        </select>
+        <div class="check-row">
+          <label>
+            <input type="checkbox" id="custIs24h" onchange="toggleCustomerHoursFields()">
+            <span data-i18n="cust24h">24 Hours</span>
+          </label>
+        </div>
 
         <div id="custHoursNormalWrap">
           <div class="btn-row">
             <div>
-              <label>Open Time</label>
+              <label data-i18n="openTime">Open Time</label>
               <input type="time" id="custOpenTime">
             </div>
             <div>
-              <label>Close Time</label>
+              <label data-i18n="closeTime">Close Time</label>
               <input type="time" id="custCloseTime">
             </div>
           </div>
         </div>
 
-        <textarea id="custNotes" placeholder="Notes"></textarea>
+        <textarea id="custNotes" data-i18n-placeholder="notes" placeholder="Notes"></textarea>
         <button onclick="addItem('cust')" data-i18n="btnSave">Save</button>
       </div>
 
@@ -446,15 +465,15 @@
       <h2 class="section-title" data-i18n="trailTitle">Trailers</h2>
 
       <div class="search-wrapper">
-        <input type="text" id="trailSearch" data-i18n-placeholder="phSearch" placeholder="Search Unit/Plate..." oninput="handleSearchInput('trailSearch', 'trailClear')">
+        <input type="text" id="trailSearch" data-i18n-placeholder="phTrailSearch" placeholder="Search Unit/Plate..." oninput="handleSearchInput('trailSearch', 'trailClear')">
         <div id="trailClear" class="clear-btn" onclick="clearSearch('trailSearch', 'trailClear')">×</div>
       </div>
 
       <div class="card">
-        <input type="text" id="trailUnit" placeholder="Unit Number">
-        <input type="text" id="trailPlate" placeholder="License Plate">
-        <input type="number" id="trailMax" placeholder="Max Load (lbs)">
-        <input type="text" id="trailPsi" placeholder="PSI at Max Load">
+        <input type="text" id="trailUnit" data-i18n-placeholder="unitNumber" placeholder="Unit Number">
+        <input type="text" id="trailPlate" data-i18n-placeholder="licensePlate" placeholder="License Plate">
+        <input type="number" id="trailMax" data-i18n-placeholder="maxLoad" placeholder="Max Load (lbs)">
+        <input type="text" id="trailPsi" data-i18n-placeholder="psiMaxLoad" placeholder="PSI at Max Load">
         <button onclick="addItem('trail')" data-i18n="btnSave">Save</button>
       </div>
 
@@ -465,7 +484,7 @@
       <h2 class="section-title" data-i18n="settTitle">Settings</h2>
 
       <div class="card">
-        <label>Driver Name:</label>
+        <label data-i18n="driverName">Driver Name:</label>
         <input type="text" id="driverName" onchange="updateSettings()">
 
         <label data-i18n="rateMile">Rate per Mile:</label>
@@ -484,8 +503,8 @@
       </div>
 
       <div class="card">
-        <div><strong>Tips</strong></div>
-        <div class="small">Use Export Backup regularly so you don't lose data if Safari storage is cleared.</div>
+        <div><strong data-i18n="tips">Tips</strong></div>
+        <div class="small" data-i18n="tipsText">Use Export Backup regularly so you don't lose data if Safari storage is cleared.</div>
       </div>
     </section>
   </div>
@@ -494,37 +513,37 @@
 <div id="pdfModal" class="modal">
   <div class="modal-content">
     <span class="close-modal" onclick="closeModal('pdfModal')">&times;</span>
-    <h3>Export to PDF</h3>
+    <h3 data-i18n="exportPdf">Export to PDF</h3>
 
-    <label><input type="checkbox" id="checkArch" checked> Archived Logs</label>
+    <label><input type="checkbox" id="checkArch" checked> <span data-i18n="archivedLogs">Archived Logs</span></label>
 
     <div style="margin-left:25px;">
-      <small>From:</small>
+      <small data-i18n="from">From</small>
       <input type="date" id="pdfStart">
-      <small>To:</small>
+      <small data-i18n="to">To</small>
       <input type="date" id="pdfEnd">
     </div>
 
-    <label><input type="checkbox" id="checkCust"> Customers</label>
-    <label><input type="checkbox" id="checkTrail"> Trailers</label>
+    <label><input type="checkbox" id="checkCust"> <span data-i18n="custTitle">Customers</span></label>
+    <label><input type="checkbox" id="checkTrail"> <span data-i18n="trailTitle">Trailers</span></label>
 
-    <button onclick="generatePdf()" style="margin-top:15px;" type="button">Preview Report</button>
+    <button onclick="generatePdf()" style="margin-top:15px;" type="button" data-i18n="previewReport">Preview Report</button>
   </div>
 </div>
 
 <div id="editModal" class="modal">
   <div class="modal-content">
     <span class="close-modal" onclick="closeModal('editModal')">&times;</span>
-    <h3 id="modalTitle">Edit</h3>
+    <h3 id="modalTitle" data-i18n="edit">Edit</h3>
     <div id="modalBody"></div>
-    <button id="modalSaveBtn" class="success" style="margin-top:15px;" type="button">Save Changes</button>
+    <button id="modalSaveBtn" class="success" style="margin-top:15px;" type="button" data-i18n="saveChanges">Save Changes</button>
   </div>
 </div>
 
 <div id="archiveDetailModal" class="modal">
   <div class="modal-content">
     <span class="close-modal" onclick="closeModal('archiveDetailModal')">&times;</span>
-    <h3 id="archiveDetailTitle">Archive Details</h3>
+    <h3 id="archiveDetailTitle" data-i18n="archiveDetails">Archive Details</h3>
     <div id="archiveDetailBody"></div>
   </div>
 </div>
@@ -552,54 +571,234 @@ const translations = {
   EN: {
     totalWeek: "Total week:",
     btnEndWeek: "Finish Week",
+    exportLogs: "Export Logs",
+    pdfShort: "PDF",
     phDist: "Distance",
-    phLoads: "Drops/Pickups",
+    phLoads: "Pickups/Drops",
     phWaiting: "Waiting (h)",
     btnAdd: "Add Entry",
     thDate: "Date",
+    thMiles: "Miles",
+    thPd: "P/D",
     thTotal: "Pay",
+    thActions: "Actions",
+
+    archTitle: "Archive",
+    from: "From",
+    to: "To",
+    applyFilter: "Apply Filter",
+    reset: "Reset",
+    weeks: "Weeks",
+    months: "Months",
+    years: "Years",
+    exportBackup: "Export Backup",
+    importBackup: "Import Backup",
+    backupInfo: "Backup includes logs, archive, customers, trailers, settings, language and theme.",
+
     custTitle: "Customers",
     phSearch: "Search...",
+    companyName: "Company Name",
+    address: "Address",
+    cust24h: "24 Hours",
+    openTime: "Open Time",
+    closeTime: "Close Time",
+    notes: "Notes",
     btnSave: "Save",
+
     trailTitle: "Trailers",
+    phTrailSearch: "Search Unit/Plate...",
+    unitNumber: "Unit Number",
+    licensePlate: "License Plate",
+    maxLoad: "Max Load (lbs)",
+    psiMaxLoad: "PSI at Max Load",
+
     settTitle: "Settings",
-    rateMile: "Rate/Mile ($):",
-    rateDrop: "Rate/Drop ($):",
-    rateWait: "Waiting/hr ($):",
+    driverName: "Driver Name:",
+    rateMile: "Rate per Mile:",
+    rateDrop: "Rate per P/D:",
+    rateWait: "Rate Waiting/hr:",
     btnTheme: "Theme",
     btnClear: "Reset All",
+    tips: "Tips",
+    tipsText: "Use Export Backup regularly so you don't lose data if Safari storage is cleared.",
+
+    exportPdf: "Export to PDF",
+    archivedLogs: "Archived Logs",
+    previewReport: "Preview Report",
+
+    edit: "Edit",
+    saveChanges: "Save Changes",
+    archiveDetails: "Archive Details",
+
     tabLog: "Log",
     tabArch: "Archive",
     tabCust: "Cust",
     tabTrail: "Fleet",
     tabSett: "Sett",
-    archTitle: "Archive"
+
+    noArchivedData: "No archived data for selected filter.",
+    unknownPeriod: "Unknown period",
+
+    weekPeriod: "Week Period",
+    entries: "Entries",
+    rates: "Rates",
+    month: "Month",
+    year: "Year",
+    weekDetails: "Week Details",
+    monthDetails: "Month Details",
+    yearDetails: "Year Details",
+    period: "Period",
+    total: "Total",
+    waiting: "Waiting",
+    editWeek: "Edit Week",
+    deleteWeek: "Delete Week",
+    archivedRates: "Archived rates",
+
+    editEntry: "Edit Entry",
+    editCustomer: "Edit Customer",
+    editTrailer: "Edit Trailer",
+
+    lblAddress: "Address",
+    lblHours: "Hours",
+    lblNotes: "Notes",
+    lblUnit: "Unit",
+    lblPlate: "Plate",
+    lblMaxLoad: "Max Load",
+    lblPsi: "PSI",
+
+    reportTitle: "Trucker Wallet Report",
+    reportDriver: "Driver",
+    reportDate: "Date",
+    close: "Close",
+    printPdf: "Print PDF",
+
+    alertSelectDate: "Please select a date",
+    alertNoLogs: "No current logs to archive.",
+    confirmDeleteWeek: "Delete this archived week?",
+    confirmDeleteEntry: "Delete entry?",
+    alertCompanyName: "Enter company name",
+    alertUnitNumber: "Enter unit number",
+    confirmDeleteItem: "Delete item?",
+    confirmEraseAll: "Erase all app data?",
+    confirmImportBackup: "Import backup and overwrite current app data?",
+    importSuccess: "Backup imported successfully.",
+    importFailed: "Import failed. Invalid JSON file."
   },
   DE: {
-    totalWeek: "Woche Summe:",
+    totalWeek: "Wochensumme:",
     btnEndWeek: "Woche beenden",
+    exportLogs: "Logs exportieren",
+    pdfShort: "PDF",
     phDist: "Distanz",
-    phLoads: "Drops/Pickups",
-    phWaiting: "Warten (h)",
-    btnAdd: "Eintragen",
+    phLoads: "Abholungen/Abladungen",
+    phWaiting: "Warten (Std)",
+    btnAdd: "Eintrag hinzufügen",
     thDate: "Datum",
+    thMiles: "Meilen",
+    thPd: "P/D",
     thTotal: "Lohn",
+    thActions: "Aktionen",
+
+    archTitle: "Archiv",
+    from: "Von",
+    to: "Bis",
+    applyFilter: "Filter anwenden",
+    reset: "Zurücksetzen",
+    weeks: "Wochen",
+    months: "Monate",
+    years: "Jahre",
+    exportBackup: "Backup exportieren",
+    importBackup: "Backup importieren",
+    backupInfo: "Das Backup enthält Logs, Archiv, Kunden, Trailer, Einstellungen, Sprache und Design.",
+
     custTitle: "Kunden",
-    phSearch: "Suche...",
+    phSearch: "Suchen...",
+    companyName: "Firmenname",
+    address: "Adresse",
+    cust24h: "24 Stunden",
+    openTime: "Öffnungszeit",
+    closeTime: "Schließzeit",
+    notes: "Notizen",
     btnSave: "Speichern",
-    trailTitle: "Auflieger",
-    settTitle: "Optionen",
-    rateMile: "Pro Meile ($):",
-    rateDrop: "Pro Stopp ($):",
-    rateWait: "Warten/Std ($):",
-    btnTheme: "Modus",
-    btnClear: "Löschen",
+
+    trailTitle: "Trailer",
+    phTrailSearch: "Unit/Kennzeichen suchen...",
+    unitNumber: "Unit-Nummer",
+    licensePlate: "Kennzeichen",
+    maxLoad: "Max. Ladung (lbs)",
+    psiMaxLoad: "PSI bei Max.-Ladung",
+
+    settTitle: "Einstellungen",
+    driverName: "Fahrername:",
+    rateMile: "Satz pro Meile:",
+    rateDrop: "Satz pro P/D:",
+    rateWait: "Satz Warten/Std:",
+    btnTheme: "Design",
+    btnClear: "Alles zurücksetzen",
+    tips: "Tipps",
+    tipsText: "Exportiere regelmäßig ein Backup, damit keine Daten verloren gehen, falls Safari-Speicher gelöscht wird.",
+
+    exportPdf: "Als PDF exportieren",
+    archivedLogs: "Archivierte Logs",
+    previewReport: "Bericht anzeigen",
+
+    edit: "Bearbeiten",
+    saveChanges: "Änderungen speichern",
+    archiveDetails: "Archivdetails",
+
     tabLog: "Log",
     tabArch: "Archiv",
     tabCust: "Kunden",
     tabTrail: "Flotte",
-    tabSett: "Option",
-    archTitle: "Archiv"
+    tabSett: "Einst.",
+
+    noArchivedData: "Keine archivierten Daten für den gewählten Filter.",
+    unknownPeriod: "Unbekannter Zeitraum",
+
+    weekPeriod: "Wochenzeitraum",
+    entries: "Einträge",
+    rates: "Sätze",
+    month: "Monat",
+    year: "Jahr",
+    weekDetails: "Wochendetails",
+    monthDetails: "Monatsdetails",
+    yearDetails: "Jahresdetails",
+    period: "Zeitraum",
+    total: "Gesamt",
+    waiting: "Warten",
+    editWeek: "Woche bearbeiten",
+    deleteWeek: "Woche löschen",
+    archivedRates: "Archivierte Sätze",
+
+    editEntry: "Eintrag bearbeiten",
+    editCustomer: "Kunde bearbeiten",
+    editTrailer: "Trailer bearbeiten",
+
+    lblAddress: "Adresse",
+    lblHours: "Arbeitszeiten",
+    lblNotes: "Notizen",
+    lblUnit: "Unit",
+    lblPlate: "Kennzeichen",
+    lblMaxLoad: "Max. Ladung",
+    lblPsi: "PSI",
+
+    reportTitle: "Trucker Wallet Bericht",
+    reportDriver: "Fahrer",
+    reportDate: "Datum",
+    close: "Schließen",
+    printPdf: "PDF drucken",
+
+    alertSelectDate: "Bitte ein Datum auswählen",
+    alertNoLogs: "Keine aktuellen Logs zum Archivieren.",
+    confirmDeleteWeek: "Diese archivierte Woche löschen?",
+    confirmDeleteEntry: "Eintrag löschen?",
+    alertCompanyName: "Firmenname eingeben",
+    alertUnitNumber: "Unit-Nummer eingeben",
+    confirmDeleteItem: "Element löschen?",
+    confirmEraseAll: "Alle App-Daten löschen?",
+    confirmImportBackup: "Backup importieren und aktuelle Daten überschreiben?",
+    importSuccess: "Backup erfolgreich importiert.",
+    importFailed: "Import fehlgeschlagen. Ungültige JSON-Datei."
   }
 };
 
@@ -612,6 +811,10 @@ const STORAGE_KEYS = {
   lang: 'truck_lang',
   theme: 'truck_theme'
 };
+
+function t(key) {
+  return (translations[currentLang] && translations[currentLang][key]) || key;
+}
 
 let logs = JSON.parse(localStorage.getItem(STORAGE_KEYS.logs)) || [];
 let archive = JSON.parse(localStorage.getItem(STORAGE_KEYS.archive)) || [];
@@ -642,6 +845,7 @@ function saveAll() {
 function toggleLang() {
   currentLang = currentLang === 'EN' ? 'DE' : 'EN';
   applyLang();
+  render();
 }
 
 function applyLang() {
@@ -650,11 +854,13 @@ function applyLang() {
   const dict = translations[currentLang];
 
   document.querySelectorAll('[data-i18n]').forEach(function(el) {
-    el.innerText = dict[el.getAttribute('data-i18n')] || el.innerText;
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) el.innerText = dict[key];
   });
 
   document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
-    el.placeholder = dict[el.getAttribute('data-i18n-placeholder')] || el.placeholder;
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (dict[key]) el.placeholder = dict[key];
   });
 }
 
@@ -665,19 +871,15 @@ function setUnit(u) {
 }
 
 function toggleCustomerHoursFields() {
-  const type = document.getElementById('custHoursType').value;
-  document.getElementById('custHoursNormalWrap').style.display = type === 'normal' ? 'block' : 'none';
+  const is24h = document.getElementById('custIs24h').checked;
+  document.getElementById('custHoursNormalWrap').style.display = is24h ? 'none' : 'block';
 }
 
-function buildCustomerHours(hoursType, openTime, closeTime) {
-  if (hoursType === '24h') return '24h';
-  if (hoursType === 'fcfs') return 'FCFS';
-  if (hoursType === 'closed') return 'Closed';
-  if (hoursType === 'appointment') return 'By appointment';
-  if (hoursType === 'normal') {
-    if (openTime && closeTime) return openTime + ' - ' + closeTime;
-    return '';
-  }
+function buildCustomerHours(is24h, openTime, closeTime) {
+  if (is24h) return '24h';
+  if (openTime && closeTime) return openTime + ' - ' + closeTime;
+  if (openTime) return openTime;
+  if (closeTime) return closeTime;
   return '';
 }
 
@@ -698,8 +900,8 @@ function formatMoney(num) {
 }
 
 function formatPeriodFromLogs(logItems) {
-  const validDates = logItems.map(function(l) { return new Date(l.date); }).filter(function(d) { return !isNaN(d); });
-  if (!validDates.length) return 'Unknown period';
+  const validDates = logItems.map(function(l) { return new Date(l.date + 'T00:00:00'); }).filter(function(d) { return !isNaN(d); });
+  if (!validDates.length) return t('unknownPeriod');
 
   const start = new Date(Math.min.apply(null, validDates));
   const end = new Date(Math.max.apply(null, validDates));
@@ -728,7 +930,7 @@ function calcEntryPay(miles, loads, wait) {
 function addEntry() {
   const entryDate = document.getElementById('entryDate').value;
   if (!entryDate) {
-    alert("Please select a date");
+    alert(t('alertSelectDate'));
     return;
   }
 
@@ -759,13 +961,13 @@ function render() {
 
   document.getElementById('logBody').innerHTML = logs
     .slice()
-    .sort(function(a, b) { return new Date(b.date) - new Date(a.date); })
+    .sort(function(a, b) { return new Date(b.date + 'T00:00:00') - new Date(a.date + 'T00:00:00'); })
     .map(function(l) {
       weekTotal += parseFloat(l.total);
       return '<tr>' +
-        '<td>' + l.date + '</td>' +
-        '<td>' + l.miles + '</td>' +
-        '<td>' + l.loads + '</td>' +
+        '<td>' + escapeHtml(l.date) + '</td>' +
+        '<td>' + escapeHtml(l.miles) + '</td>' +
+        '<td>' + escapeHtml(l.loads) + '</td>' +
         '<td>' + formatMoney(l.total) + '</td>' +
         '<td class="action-btns">' +
           '<button class="btn-icon" onclick="editCurrentLog(' + l.id + ')" type="button">✏️</button>' +
@@ -782,7 +984,7 @@ function render() {
 }
 
 function getArchiveEntriesRange(week) {
-  const dates = week.entries.map(function(e) { return new Date(e.date); }).filter(function(d) { return !isNaN(d); });
+  const dates = week.entries.map(function(e) { return new Date(e.date + 'T00:00:00'); }).filter(function(d) { return !isNaN(d); });
   if (!dates.length) return null;
   return {
     start: new Date(Math.min.apply(null, dates)),
@@ -794,8 +996,8 @@ function weekMatchesFilter(week) {
   const range = getArchiveEntriesRange(week);
   if (!range) return false;
 
-  const filterStart = archiveFilterStart ? new Date(archiveFilterStart) : null;
-  const filterEnd = archiveFilterEnd ? new Date(archiveFilterEnd) : null;
+  const filterStart = archiveFilterStart ? new Date(archiveFilterStart + 'T00:00:00') : null;
+  const filterEnd = archiveFilterEnd ? new Date(archiveFilterEnd + 'T23:59:59') : null;
 
   if (filterStart && range.end < filterStart) return false;
   if (filterEnd && range.start > filterEnd) return false;
@@ -827,12 +1029,12 @@ function renderArchive() {
   const filteredArchive = getFilteredArchive();
 
   if (!filteredArchive.length) {
-    archDiv.innerHTML = '<div class="card">No archived data for selected filter.</div>';
+    archDiv.innerHTML = '<div class="card">' + t('noArchivedData') + '</div>';
     return;
   }
 
   if (archFilter === 'weeks') {
-    let html = '<div class="card"><table><thead><tr><th>Week Period</th><th>Entries</th><th>Total</th><th>Rates</th></tr></thead><tbody>';
+    let html = '<div class="card"><table><thead><tr><th>' + t('weekPeriod') + '</th><th>' + t('entries') + '</th><th>' + t('total') + '</th><th>' + t('rates') + '</th></tr></thead><tbody>';
     html += filteredArchive.slice().reverse().map(function(a) {
       const total = a.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
       const rates = a.rates
@@ -840,10 +1042,10 @@ function renderArchive() {
         : '-';
 
       return '<tr class="clickable-row" onclick="openArchiveWeekDetail(' + a.id + ')">' +
-        '<td>' + a.period + '</td>' +
+        '<td>' + escapeHtml(a.period) + '</td>' +
         '<td>' + a.entries.length + '</td>' +
         '<td>' + formatMoney(total) + '</td>' +
-        '<td>' + rates + '</td>' +
+        '<td>' + escapeHtml(rates) + '</td>' +
       '</tr>';
     }).join('');
     html += '</tbody></table></div>';
@@ -865,7 +1067,7 @@ function renderArchive() {
 
     const keys = Object.keys(grouped).sort().reverse();
 
-    let html = '<div class="card"><table><thead><tr><th>Month</th><th>Weeks</th><th>Total</th></tr></thead><tbody>';
+    let html = '<div class="card"><table><thead><tr><th>' + t('month') + '</th><th>' + t('weeks') + '</th><th>' + t('total') + '</th></tr></thead><tbody>';
     html += keys.map(function(key) {
       const weeks = grouped[key];
       const total = weeks.reduce(function(sum, w) {
@@ -897,7 +1099,7 @@ function renderArchive() {
 
     const keys = Object.keys(grouped).sort().reverse();
 
-    let html = '<div class="card"><table><thead><tr><th>Year</th><th>Months</th><th>Total</th></tr></thead><tbody>';
+    let html = '<div class="card"><table><thead><tr><th>' + t('year') + '</th><th>' + t('months') + '</th><th>' + t('total') + '</th></tr></thead><tbody>';
     html += keys.map(function(key) {
       const weeks = grouped[key];
       const monthsSet = {};
@@ -905,7 +1107,7 @@ function renderArchive() {
 
       weeks.forEach(function(w) {
         w.entries.forEach(function(e) {
-          const d = new Date(e.date);
+          const d = new Date(e.date + 'T00:00:00');
           if (!isNaN(d)) {
             const monthKey = String(d.getMonth() + 1).padStart(2, '0');
             monthsSet[monthKey] = true;
@@ -935,29 +1137,29 @@ function openArchiveWeekDetail(id) {
     : '-';
 
   let html = '<div class="card">';
-  html += '<div><strong>Period:</strong> ' + week.period + '</div>';
-  html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
-  html += '<div><strong>Rates:</strong> ' + rates + '</div>';
+  html += '<div><strong>' + t('period') + ':</strong> ' + escapeHtml(week.period) + '</div>';
+  html += '<div><strong>' + t('total') + ':</strong> ' + formatMoney(total) + '</div>';
+  html += '<div><strong>' + t('rates') + ':</strong> ' + escapeHtml(rates) + '</div>';
   html += '</div>';
 
-  html += '<div class="card"><table><thead><tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr></thead><tbody>';
-  html += week.entries.slice().sort(function(a, b) { return new Date(a.date) - new Date(b.date); }).map(function(e) {
+  html += '<div class="card"><table><thead><tr><th>' + t('thDate') + '</th><th>' + t('thMiles') + '</th><th>' + t('thPd') + '</th><th>' + t('waiting') + '</th><th>' + t('thTotal') + '</th></tr></thead><tbody>';
+  html += week.entries.slice().sort(function(a, b) { return new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00'); }).map(function(e) {
     return '<tr>' +
-      '<td>' + e.date + '</td>' +
-      '<td>' + e.miles + '</td>' +
-      '<td>' + e.loads + '</td>' +
-      '<td>' + e.wait + '</td>' +
+      '<td>' + escapeHtml(e.date) + '</td>' +
+      '<td>' + escapeHtml(e.miles) + '</td>' +
+      '<td>' + escapeHtml(e.loads) + '</td>' +
+      '<td>' + escapeHtml(e.wait) + '</td>' +
       '<td>' + formatMoney(e.total) + '</td>' +
     '</tr>';
   }).join('');
   html += '</tbody></table></div>';
 
   html += '<div class="btn-row">';
-  html += '<button class="warning" type="button" onclick="editArchivedWeek(' + week.id + ')">Edit Week</button>';
-  html += '<button class="danger" type="button" onclick="deleteArchivedWeekFromDetail(' + week.id + ')">Delete Week</button>';
+  html += '<button class="warning" type="button" onclick="editArchivedWeek(' + week.id + ')">' + t('editWeek') + '</button>';
+  html += '<button class="danger" type="button" onclick="deleteArchivedWeekFromDetail(' + week.id + ')">' + t('deleteWeek') + '</button>';
   html += '</div>';
 
-  document.getElementById('archiveDetailTitle').innerText = 'Week Details';
+  document.getElementById('archiveDetailTitle').innerText = t('weekDetails');
   document.getElementById('archiveDetailBody').innerHTML = html;
   document.getElementById('archiveDetailModal').style.display = 'flex';
 }
@@ -977,22 +1179,22 @@ function openArchiveMonthDetail(monthKey) {
   }, 0);
 
   let html = '<div class="card">';
-  html += '<div><strong>Month:</strong> ' + monthKey + '</div>';
-  html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
+  html += '<div><strong>' + t('month') + ':</strong> ' + monthKey + '</div>';
+  html += '<div><strong>' + t('total') + ':</strong> ' + formatMoney(total) + '</div>';
   html += '</div>';
 
-  html += '<div class="card"><table><thead><tr><th>Week Period</th><th>Entries</th><th>Total</th></tr></thead><tbody>';
+  html += '<div class="card"><table><thead><tr><th>' + t('weekPeriod') + '</th><th>' + t('entries') + '</th><th>' + t('total') + '</th></tr></thead><tbody>';
   html += weeks.slice().reverse().map(function(w) {
     const weekTotal = w.entries.reduce(function(s, e) { return s + parseFloat(e.total || 0); }, 0);
     return '<tr class="clickable-row" onclick="openArchiveWeekDetail(' + w.id + ')">' +
-      '<td>' + w.period + '</td>' +
+      '<td>' + escapeHtml(w.period) + '</td>' +
       '<td>' + w.entries.length + '</td>' +
       '<td>' + formatMoney(weekTotal) + '</td>' +
     '</tr>';
   }).join('');
   html += '</tbody></table></div>';
 
-  document.getElementById('archiveDetailTitle').innerText = 'Month Details';
+  document.getElementById('archiveDetailTitle').innerText = t('monthDetails');
   document.getElementById('archiveDetailBody').innerHTML = html;
   document.getElementById('archiveDetailModal').style.display = 'flex';
 }
@@ -1003,7 +1205,7 @@ function openArchiveYearDetail(yearKey) {
 
   filteredArchive.forEach(function(w) {
     w.entries.forEach(function(e) {
-      const d = new Date(e.date);
+      const d = new Date(e.date + 'T00:00:00');
       if (isNaN(d)) return;
       if (String(d.getFullYear()) !== yearKey) return;
 
@@ -1016,11 +1218,11 @@ function openArchiveYearDetail(yearKey) {
   const total = months.reduce(function(sum, m) { return sum + monthTotals[m]; }, 0);
 
   let html = '<div class="card">';
-  html += '<div><strong>Year:</strong> ' + yearKey + '</div>';
-  html += '<div><strong>Total:</strong> ' + formatMoney(total) + '</div>';
+  html += '<div><strong>' + t('year') + ':</strong> ' + yearKey + '</div>';
+  html += '<div><strong>' + t('total') + ':</strong> ' + formatMoney(total) + '</div>';
   html += '</div>';
 
-  html += '<div class="card"><table><thead><tr><th>Month</th><th>Total</th></tr></thead><tbody>';
+  html += '<div class="card"><table><thead><tr><th>' + t('month') + '</th><th>' + t('total') + '</th></tr></thead><tbody>';
   html += months.map(function(m) {
     const fullKey = yearKey + '-' + m;
     return '<tr class="clickable-row" onclick="openArchiveMonthDetail(\'' + fullKey + '\')">' +
@@ -1030,7 +1232,7 @@ function openArchiveYearDetail(yearKey) {
   }).join('');
   html += '</tbody></table></div>';
 
-  document.getElementById('archiveDetailTitle').innerText = 'Year Details';
+  document.getElementById('archiveDetailTitle').innerText = t('yearDetails');
   document.getElementById('archiveDetailBody').innerHTML = html;
   document.getElementById('archiveDetailModal').style.display = 'flex';
 }
@@ -1046,21 +1248,21 @@ function editArchivedWeek(id) {
   let rateInfo = '';
   if (week.rates) {
     rateInfo = '<div class="card" style="margin-bottom:15px;">' +
-      '<strong>Archived rates</strong><br>' +
+      '<strong>' + t('archivedRates') + '</strong><br>' +
       '<div class="small">$' + week.rates.rateMile + '/mile | $' + week.rates.rateDrop + '/drop | $' + week.rates.rateWait + '/hr</div>' +
       '</div>';
   }
 
   const rows = week.entries.map(function(e, i) {
     return '<div style="border-bottom:1px solid var(--border); padding:10px 0;">' +
-      '<input type="date" value="' + e.date + '" onchange="updateArchEntry(' + i + ', \'date\', this.value)">' +
-      '<input type="number" value="' + e.miles + '" onchange="updateArchEntry(' + i + ', \'miles\', this.value)">' +
-      '<input type="number" value="' + e.loads + '" onchange="updateArchEntry(' + i + ', \'loads\', this.value)">' +
-      '<input type="number" value="' + e.wait + '" onchange="updateArchEntry(' + i + ', \'wait\', this.value)">' +
+      '<input type="date" value="' + escapeHtml(e.date) + '" onchange="updateArchEntry(' + i + ', \'date\', this.value)">' +
+      '<input type="number" value="' + escapeHtml(e.miles) + '" onchange="updateArchEntry(' + i + ', \'miles\', this.value)">' +
+      '<input type="number" value="' + escapeHtml(e.loads) + '" onchange="updateArchEntry(' + i + ', \'loads\', this.value)">' +
+      '<input type="number" value="' + escapeHtml(e.wait) + '" onchange="updateArchEntry(' + i + ', \'wait\', this.value)">' +
       '</div>';
   }).join('');
 
-  document.getElementById('modalBody').innerHTML = rateInfo + rows + '<button onclick="deleteWeek(' + id + ')" class="danger" style="margin-top:15px;" type="button">Delete Week</button>';
+  document.getElementById('modalBody').innerHTML = rateInfo + rows + '<button onclick="deleteWeek(' + id + ')" class="danger" style="margin-top:15px;" type="button">' + t('deleteWeek') + '</button>';
   document.getElementById('editModal').style.display = 'flex';
 
   document.getElementById('modalSaveBtn').onclick = function() {
@@ -1091,7 +1293,7 @@ function updateArchEntry(i, field, val) {
 }
 
 function deleteWeek(id) {
-  if (!confirm("Delete this archived week?")) return;
+  if (!confirm(t('confirmDeleteWeek'))) return;
   archive = archive.filter(function(a) { return a.id !== id; });
   saveAll();
   render();
@@ -1100,7 +1302,7 @@ function deleteWeek(id) {
 }
 
 function deleteArchivedWeekFromDetail(id) {
-  if (!confirm("Delete this archived week?")) return;
+  if (!confirm(t('confirmDeleteWeek'))) return;
   archive = archive.filter(function(a) { return a.id !== id; });
   saveAll();
   render();
@@ -1122,9 +1324,9 @@ function renderCustomers() {
         '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">' +
           '<div style="flex:1;">' +
             '<strong>' + escapeHtml(c.name) + '</strong><br>' +
-            '<small><strong>Address:</strong> ' + escapeHtml(c.addr || '') + '</small><br>' +
-            '<small><strong>Hours:</strong> ' + escapeHtml(c.hours || '') + '</small><br>' +
-            '<small><strong>Notes:</strong> ' + escapeHtml(c.notes || '') + '</small>' +
+            '<small><strong>' + t('lblAddress') + ':</strong> ' + escapeHtml(c.addr || '') + '</small><br>' +
+            '<small><strong>' + t('lblHours') + ':</strong> ' + escapeHtml(c.hours || '') + '</small><br>' +
+            '<small><strong>' + t('lblNotes') + ':</strong> ' + escapeHtml(c.notes || '') + '</small>' +
           '</div>' +
           '<div class="action-btns">' +
             '<button class="btn-icon" onclick="editCustomer(' + c.id + ')" type="button">✏️</button>' +
@@ -1139,24 +1341,24 @@ function renderTrailers() {
   const q = (document.getElementById('trailSearch') ? document.getElementById('trailSearch').value : '').toLowerCase();
 
   document.getElementById('trailerList').innerHTML = trailers
-    .filter(function(t) {
-      return (t.unit || '').toLowerCase().includes(q) ||
-             (t.plate || '').toLowerCase().includes(q) ||
-             (t.max || '').toLowerCase().includes(q) ||
-             (t.psi || '').toLowerCase().includes(q);
+    .filter(function(ti) {
+      return (ti.unit || '').toLowerCase().includes(q) ||
+             (ti.plate || '').toLowerCase().includes(q) ||
+             (ti.max || '').toLowerCase().includes(q) ||
+             (ti.psi || '').toLowerCase().includes(q);
     })
-    .map(function(t) {
+    .map(function(ti) {
       return '<div class="card">' +
         '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">' +
           '<div style="flex:1;">' +
-            '<strong>Unit:</strong> ' + escapeHtml(t.unit) + '<br>' +
-            '<small><strong>Plate:</strong> ' + escapeHtml(t.plate || '') + '</small><br>' +
-            '<small><strong>Max Load:</strong> ' + escapeHtml(t.max || '') + '</small><br>' +
-            '<small><strong>PSI:</strong> ' + escapeHtml(t.psi || '') + '</small>' +
+            '<strong>' + t('lblUnit') + ':</strong> ' + escapeHtml(ti.unit) + '<br>' +
+            '<small><strong>' + t('lblPlate') + ':</strong> ' + escapeHtml(ti.plate || '') + '</small><br>' +
+            '<small><strong>' + t('lblMaxLoad') + ':</strong> ' + escapeHtml(ti.max || '') + '</small><br>' +
+            '<small><strong>' + t('lblPsi') + ':</strong> ' + escapeHtml(ti.psi || '') + '</small>' +
           '</div>' +
           '<div class="action-btns">' +
-            '<button class="btn-icon" onclick="editTrailer(' + t.id + ')" type="button">✏️</button>' +
-            '<button class="btn-icon" onclick="deleteItem(\'trail\', ' + t.id + ')" type="button">🗑️</button>' +
+            '<button class="btn-icon" onclick="editTrailer(' + ti.id + ')" type="button">✏️</button>' +
+            '<button class="btn-icon" onclick="deleteItem(\'trail\', ' + ti.id + ')" type="button">🗑️</button>' +
           '</div>' +
         '</div>' +
       '</div>';
@@ -1177,12 +1379,12 @@ function editCurrentLog(id) {
   if (!entry) return;
 
   currentEditingId = id;
-  document.getElementById('modalTitle').innerText = "Edit Entry";
+  document.getElementById('modalTitle').innerText = t('editEntry');
   document.getElementById('modalBody').innerHTML =
-    '<input type="date" id="editDate" value="' + entry.date + '">' +
-    '<input type="number" id="editMiles" value="' + entry.miles + '">' +
-    '<input type="number" id="editLoads" value="' + entry.loads + '">' +
-    '<input type="number" id="editWait" value="' + entry.wait + '">';
+    '<input type="date" id="editDate" value="' + escapeHtml(entry.date) + '">' +
+    '<input type="number" id="editMiles" value="' + escapeHtml(entry.miles) + '">' +
+    '<input type="number" id="editLoads" value="' + escapeHtml(entry.loads) + '">' +
+    '<input type="number" id="editWait" value="' + escapeHtml(entry.wait) + '">';
 
   document.getElementById('editModal').style.display = 'flex';
   document.getElementById('modalSaveBtn').onclick = function() {
@@ -1203,46 +1405,35 @@ function editCustomer(id) {
 
   currentEditingId = id;
 
-  const hoursType = c.hoursType || 'normal';
+  const is24h = !!c.is24h;
   const openTime = c.openTime || '';
   const closeTime = c.closeTime || '';
 
-  document.getElementById('modalTitle').innerText = 'Edit Customer';
-
-  let hoursFields = '';
-  hoursFields += '<label>Hours Type</label>';
-  hoursFields += '<select id="editCustHoursType" onchange="toggleEditCustomerHoursFields()">';
-  hoursFields += '<option value="normal"' + (hoursType === 'normal' ? ' selected' : '') + '>Normal</option>';
-  hoursFields += '<option value="24h"' + (hoursType === '24h' ? ' selected' : '') + '>24h</option>';
-  hoursFields += '<option value="fcfs"' + (hoursType === 'fcfs' ? ' selected' : '') + '>FCFS</option>';
-  hoursFields += '<option value="closed"' + (hoursType === 'closed' ? ' selected' : '') + '>Closed</option>';
-  hoursFields += '<option value="appointment"' + (hoursType === 'appointment' ? ' selected' : '') + '>By appointment</option>';
-  hoursFields += '</select>';
-
-  hoursFields += '<div id="editCustHoursNormalWrap" style="display:' + (hoursType === 'normal' ? 'block' : 'none') + ';">';
-  hoursFields += '<div class="btn-row">';
-  hoursFields += '<div><label>Open Time</label><input type="time" id="editCustOpenTime" value="' + openTime + '"></div>';
-  hoursFields += '<div><label>Close Time</label><input type="time" id="editCustCloseTime" value="' + closeTime + '"></div>';
-  hoursFields += '</div>';
-  hoursFields += '</div>';
+  document.getElementById('modalTitle').innerText = t('editCustomer');
 
   document.getElementById('modalBody').innerHTML =
-    '<input type="text" id="editCustName" value="' + escapeHtml(c.name || '') + '">' +
-    '<input type="text" id="editCustAddress" value="' + escapeHtml(c.addr || '') + '">' +
-    hoursFields +
-    '<textarea id="editCustNotes">' + escapeHtml(c.notes || '') + '</textarea>';
+    '<input type="text" id="editCustName" value="' + escapeHtml(c.name || '') + '" placeholder="' + t('companyName') + '">' +
+    '<input type="text" id="editCustAddress" value="' + escapeHtml(c.addr || '') + '" placeholder="' + t('address') + '">' +
+    '<div class="check-row">' +
+      '<label><input type="checkbox" id="editCustIs24h" ' + (is24h ? 'checked' : '') + ' onchange="toggleEditCustomerHoursFields()"> ' + t('cust24h') + '</label>' +
+    '</div>' +
+    '<div id="editCustHoursNormalWrap" style="display:' + (is24h ? 'none' : 'block') + ';">' +
+      '<div class="btn-row">' +
+        '<div><label>' + t('openTime') + '</label><input type="time" id="editCustOpenTime" value="' + openTime + '"></div>' +
+        '<div><label>' + t('closeTime') + '</label><input type="time" id="editCustCloseTime" value="' + closeTime + '"></div>' +
+      '</div>' +
+    '</div>' +
+    '<textarea id="editCustNotes" placeholder="' + t('notes') + '">' + escapeHtml(c.notes || '') + '</textarea>';
 
   document.getElementById('editModal').style.display = 'flex';
 
   document.getElementById('modalSaveBtn').onclick = function() {
     c.name = document.getElementById('editCustName').value.trim();
     c.addr = document.getElementById('editCustAddress').value.trim();
-
-    c.hoursType = document.getElementById('editCustHoursType').value;
-    c.openTime = document.getElementById('editCustOpenTime') ? document.getElementById('editCustOpenTime').value : '';
-    c.closeTime = document.getElementById('editCustCloseTime') ? document.getElementById('editCustCloseTime').value : '';
-    c.hours = buildCustomerHours(c.hoursType, c.openTime, c.closeTime);
-
+    c.is24h = document.getElementById('editCustIs24h').checked;
+    c.openTime = document.getElementById('editCustOpenTime').value;
+    c.closeTime = document.getElementById('editCustCloseTime').value;
+    c.hours = buildCustomerHours(c.is24h, c.openTime, c.closeTime);
     c.notes = document.getElementById('editCustNotes').value.trim();
 
     saveAll();
@@ -1252,30 +1443,30 @@ function editCustomer(id) {
 }
 
 function toggleEditCustomerHoursFields() {
-  const el = document.getElementById('editCustHoursType');
+  const el = document.getElementById('editCustIs24h');
   const wrap = document.getElementById('editCustHoursNormalWrap');
   if (!el || !wrap) return;
-  wrap.style.display = el.value === 'normal' ? 'block' : 'none';
+  wrap.style.display = el.checked ? 'none' : 'block';
 }
 
 function editTrailer(id) {
-  const t = trailers.find(function(x) { return x.id === id; });
-  if (!t) return;
+  const ti = trailers.find(function(x) { return x.id === id; });
+  if (!ti) return;
 
   currentEditingId = id;
-  document.getElementById('modalTitle').innerText = 'Edit Trailer';
+  document.getElementById('modalTitle').innerText = t('editTrailer');
   document.getElementById('modalBody').innerHTML =
-    '<input type="text" id="editTrailUnit" value="' + escapeHtml(t.unit || '') + '">' +
-    '<input type="text" id="editTrailPlate" value="' + escapeHtml(t.plate || '') + '">' +
-    '<input type="number" id="editTrailMax" value="' + escapeHtml(t.max || '') + '">' +
-    '<input type="text" id="editTrailPsi" value="' + escapeHtml(t.psi || '') + '">';
+    '<input type="text" id="editTrailUnit" value="' + escapeHtml(ti.unit || '') + '" placeholder="' + t('unitNumber') + '">' +
+    '<input type="text" id="editTrailPlate" value="' + escapeHtml(ti.plate || '') + '" placeholder="' + t('licensePlate') + '">' +
+    '<input type="number" id="editTrailMax" value="' + escapeHtml(ti.max || '') + '" placeholder="' + t('maxLoad') + '">' +
+    '<input type="text" id="editTrailPsi" value="' + escapeHtml(ti.psi || '') + '" placeholder="' + t('psiMaxLoad') + '">';
 
   document.getElementById('editModal').style.display = 'flex';
   document.getElementById('modalSaveBtn').onclick = function() {
-    t.unit = document.getElementById('editTrailUnit').value.trim();
-    t.plate = document.getElementById('editTrailPlate').value.trim();
-    t.max = document.getElementById('editTrailMax').value.trim();
-    t.psi = document.getElementById('editTrailPsi').value.trim();
+    ti.unit = document.getElementById('editTrailUnit').value.trim();
+    ti.plate = document.getElementById('editTrailPlate').value.trim();
+    ti.max = document.getElementById('editTrailMax').value.trim();
+    ti.psi = document.getElementById('editTrailPsi').value.trim();
     saveAll();
     render();
     closeModal('editModal');
@@ -1283,7 +1474,7 @@ function editTrailer(id) {
 }
 
 function deleteCurrentLog(id) {
-  if (!confirm("Delete entry?")) return;
+  if (!confirm(t('confirmDeleteEntry'))) return;
   logs = logs.filter(function(l) { return l.id !== id; });
   saveAll();
   render();
@@ -1291,7 +1482,7 @@ function deleteCurrentLog(id) {
 
 function finishWeek() {
   if (!logs.length) {
-    alert("No current logs to archive.");
+    alert(t('alertNoLogs'));
     return;
   }
 
@@ -1315,20 +1506,20 @@ function addItem(type) {
   if (type === 'cust') {
     const n = document.getElementById('custName');
     const a = document.getElementById('custAddress');
-    const hoursType = document.getElementById('custHoursType').value;
+    const is24h = document.getElementById('custIs24h').checked;
     const openTime = document.getElementById('custOpenTime').value;
     const closeTime = document.getElementById('custCloseTime').value;
     const no = document.getElementById('custNotes');
 
-    if (!n.value.trim()) return alert("Enter company name");
+    if (!n.value.trim()) return alert(t('alertCompanyName'));
 
-    const hoursText = buildCustomerHours(hoursType, openTime, closeTime);
+    const hoursText = buildCustomerHours(is24h, openTime, closeTime);
 
     customers.push({
       id: Date.now(),
       name: n.value.trim(),
       addr: a.value.trim(),
-      hoursType: hoursType,
+      is24h: is24h,
       openTime: openTime,
       closeTime: closeTime,
       hours: hoursText,
@@ -1337,7 +1528,7 @@ function addItem(type) {
 
     n.value = '';
     a.value = '';
-    document.getElementById('custHoursType').value = 'normal';
+    document.getElementById('custIs24h').checked = false;
     document.getElementById('custOpenTime').value = '';
     document.getElementById('custCloseTime').value = '';
     no.value = '';
@@ -1350,7 +1541,7 @@ function addItem(type) {
     const m = document.getElementById('trailMax');
     const ps = document.getElementById('trailPsi');
 
-    if (!u.value.trim()) return alert("Enter unit number");
+    if (!u.value.trim()) return alert(t('alertUnitNumber'));
 
     trailers.push({
       id: Date.now(),
@@ -1371,10 +1562,10 @@ function addItem(type) {
 }
 
 function deleteItem(type, id) {
-  if (!confirm("Delete item?")) return;
+  if (!confirm(t('confirmDeleteItem'))) return;
 
   if (type === 'cust') customers = customers.filter(function(c) { return c.id !== id; });
-  if (type === 'trail') trailers = trailers.filter(function(t) { return t.id !== id; });
+  if (type === 'trail') trailers = trailers.filter(function(ti) { return ti.id !== id; });
 
   saveAll();
   render();
@@ -1399,7 +1590,7 @@ function showPage(id, el) {
   document.getElementById('printArea').classList.remove('viewing');
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.tab-item').forEach(function(ti) { ti.classList.remove('active'); });
   el.classList.add('active');
 }
 
@@ -1430,7 +1621,7 @@ function toggleTheme() {
 }
 
 function clearData() {
-  if (!confirm("Erase all app data?")) return;
+  if (!confirm(t('confirmEraseAll'))) return;
 
   Object.keys(STORAGE_KEYS).forEach(function(key) {
     localStorage.removeItem(STORAGE_KEYS[key]);
@@ -1484,7 +1675,7 @@ function importBackup(event) {
     try {
       const data = JSON.parse(e.target.result);
 
-      if (!confirm("Import backup and overwrite current app data?")) {
+      if (!confirm(t('confirmImportBackup'))) {
         event.target.value = '';
         return;
       }
@@ -1509,9 +1700,9 @@ function importBackup(event) {
       document.getElementById('driverName').value = settings.driverName || '';
 
       render();
-      alert("Backup imported successfully.");
+      alert(t('importSuccess'));
     } catch (err) {
-      alert("Import failed. Invalid JSON file.");
+      alert(t('importFailed'));
     }
 
     event.target.value = '';
@@ -1525,25 +1716,25 @@ function generatePdf() {
 
   let html = '';
   html += '<div class="no-print" style="margin-bottom:20px; display:flex; gap:10px;">';
-  html += '<button onclick="closeReport()" style="background:#dc2626; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">✖ Close</button>';
-  html += '<button onclick="window.print()" style="background:#2563eb; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">🖨️ Print PDF</button>';
+  html += '<button onclick="closeReport()" style="background:#dc2626; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">✖ ' + t('close') + '</button>';
+  html += '<button onclick="window.print()" style="background:#2563eb; color:white; width:auto; padding:12px 16px; border:none; border-radius:8px;">🖨️ ' + t('printPdf') + '</button>';
   html += '</div>';
 
-  html += '<h1>Trucker Wallet Report</h1>';
-  html += '<p>Driver: ' + escapeHtml(settings.driverName || '') + ' | Date: ' + new Date().toLocaleDateString() + '</p><hr>';
+  html += '<h1>' + t('reportTitle') + '</h1>';
+  html += '<p>' + t('reportDriver') + ': ' + escapeHtml(settings.driverName || '') + ' | ' + t('reportDate') + ': ' + new Date().toLocaleDateString() + '</p><hr>';
 
   if (document.getElementById('checkArch').checked) {
-    const s = new Date(document.getElementById('pdfStart').value || '2000-01-01');
-    const e = new Date(document.getElementById('pdfEnd').value || '2100-12-31');
+    const s = document.getElementById('pdfStart').value ? new Date(document.getElementById('pdfStart').value + 'T00:00:00') : new Date('2000-01-01T00:00:00');
+    const e = document.getElementById('pdfEnd').value ? new Date(document.getElementById('pdfEnd').value + 'T23:59:59') : new Date('2100-12-31T23:59:59');
 
-    html += '<h2>Archived Logs</h2>';
+    html += '<h2>' + t('archivedLogs') + '</h2>';
     html += '<table border="1" style="width:100%; border-collapse:collapse;">';
-    html += '<tr><th>Date</th><th>Miles</th><th>P/D</th><th>Waiting</th><th>Pay</th></tr>';
+    html += '<tr><th>' + t('thDate') + '</th><th>' + t('thMiles') + '</th><th>' + t('thPd') + '</th><th>' + t('waiting') + '</th><th>' + t('thTotal') + '</th></tr>';
 
-    let t = 0;
+    let totalAmount = 0;
     archive.forEach(function(a) {
       a.entries.forEach(function(ent) {
-        const d = new Date(ent.date);
+        const d = new Date(ent.date + 'T00:00:00');
         if (d >= s && d <= e) {
           html += '<tr>' +
             '<td>' + escapeHtml(ent.date) + '</td>' +
@@ -1552,73 +1743,17 @@ function generatePdf() {
             '<td>' + escapeHtml(ent.wait) + '</td>' +
             '<td>' + formatMoney(ent.total) + '</td>' +
           '</tr>';
-          t += parseFloat(ent.total || 0);
+          totalAmount += parseFloat(ent.total || 0);
         }
       });
     });
 
-    html += '</table><h3>Total: ' + formatMoney(t) + '</h3>';
+    html += '</table><h3>' + t('total') + ': ' + formatMoney(totalAmount) + '</h3>';
   }
 
   if (document.getElementById('checkCust').checked) {
-    html += '<h2>Customers</h2>';
+    html += '<h2>' + t('custTitle') + '</h2>';
     html += customers.map(function(c) {
       return '<p>' +
         '<strong>' + escapeHtml(c.name) + '</strong><br>' +
-        'Address: ' + escapeHtml(c.addr || '') + '<br>' +
-        'Hours: ' + escapeHtml(c.hours || '') + '<br>' +
-        'Notes: ' + escapeHtml(c.notes || '') +
-      '</p>';
-    }).join('');
-  }
-
-  if (document.getElementById('checkTrail').checked) {
-    html += '<h2>Trailers</h2>';
-    html += trailers.map(function(t) {
-      return '<p>' +
-        'Unit ' + escapeHtml(t.unit) +
-        ' | Plate: ' + escapeHtml(t.plate) +
-        ' | Max: ' + escapeHtml(t.max) +
-        ' | PSI: ' + escapeHtml(t.psi) +
-      '</p>';
-    }).join('');
-  }
-
-  area.innerHTML = html;
-  area.classList.add('viewing');
-  closeModal('pdfModal');
-}
-
-window.onclick = function(event) {
-  const pdfModal = document.getElementById('pdfModal');
-  const editModal = document.getElementById('editModal');
-  const archiveDetailModal = document.getElementById('archiveDetailModal');
-
-  if (event.target === pdfModal) pdfModal.style.display = 'none';
-  if (event.target === editModal) editModal.style.display = 'none';
-  if (event.target === archiveDetailModal) archiveDetailModal.style.display = 'none';
-};
-
-const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'light';
-document.body.setAttribute('data-theme', savedTheme);
-
-document.getElementById('entryDate').valueAsDate = new Date();
-document.getElementById('rateMile').value = settings.rateMile;
-document.getElementById('rateDrop').value = settings.rateDrop;
-document.getElementById('rateWait').value = settings.rateWait;
-document.getElementById('driverName').value = settings.driverName || '';
-
-toggleCustomerHoursFields();
-applyLang();
-render();
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./service-worker.js').catch(function(err) {
-      console.log('SW fail:', err);
-    });
-  });
-}
-</script>
-</body>
-</html>
+       
