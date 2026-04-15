@@ -582,7 +582,6 @@ const translations = {
     thPd: "P/D",
     thTotal: "Pay",
     thActions: "Actions",
-
     archTitle: "Archive",
     from: "From",
     to: "To",
@@ -594,7 +593,6 @@ const translations = {
     exportBackup: "Export Backup",
     importBackup: "Import Backup",
     backupInfo: "Backup includes logs, archive, customers, trailers, settings, language and theme.",
-
     custTitle: "Customers",
     phSearch: "Search...",
     companyName: "Company Name",
@@ -604,14 +602,12 @@ const translations = {
     closeTime: "Close Time",
     notes: "Notes",
     btnSave: "Save",
-
     trailTitle: "Trailers",
     phTrailSearch: "Search Unit/Plate...",
     unitNumber: "Unit Number",
     licensePlate: "License Plate",
     maxLoad: "Max Load (lbs)",
     psiMaxLoad: "PSI at Max Load",
-
     settTitle: "Settings",
     driverName: "Driver Name:",
     rateMile: "Rate per Mile:",
@@ -621,24 +617,19 @@ const translations = {
     btnClear: "Reset All",
     tips: "Tips",
     tipsText: "Use Export Backup regularly so you don't lose data if Safari storage is cleared.",
-
     exportPdf: "Export to PDF",
     archivedLogs: "Archived Logs",
     previewReport: "Preview Report",
-
     edit: "Edit",
     saveChanges: "Save Changes",
     archiveDetails: "Archive Details",
-
     tabLog: "Log",
     tabArch: "Archive",
     tabCust: "Cust",
     tabTrail: "Fleet",
     tabSett: "Sett",
-
     noArchivedData: "No archived data for selected filter.",
     unknownPeriod: "Unknown period",
-
     weekPeriod: "Week Period",
     entries: "Entries",
     rates: "Rates",
@@ -653,11 +644,9 @@ const translations = {
     editWeek: "Edit Week",
     deleteWeek: "Delete Week",
     archivedRates: "Archived rates",
-
     editEntry: "Edit Entry",
     editCustomer: "Edit Customer",
     editTrailer: "Edit Trailer",
-
     lblAddress: "Address",
     lblHours: "Hours",
     lblNotes: "Notes",
@@ -665,13 +654,11 @@ const translations = {
     lblPlate: "Plate",
     lblMaxLoad: "Max Load",
     lblPsi: "PSI",
-
     reportTitle: "Trucker Wallet Report",
     reportDriver: "Driver",
     reportDate: "Date",
     close: "Close",
     printPdf: "Print PDF",
-
     alertSelectDate: "Please select a date",
     alertNoLogs: "No current logs to archive.",
     confirmDeleteWeek: "Delete this archived week?",
@@ -698,7 +685,6 @@ const translations = {
     thPd: "P/D",
     thTotal: "Lohn",
     thActions: "Aktionen",
-
     archTitle: "Archiv",
     from: "Von",
     to: "Bis",
@@ -710,7 +696,6 @@ const translations = {
     exportBackup: "Backup exportieren",
     importBackup: "Backup importieren",
     backupInfo: "Das Backup enthält Logs, Archiv, Kunden, Trailer, Einstellungen, Sprache und Design.",
-
     custTitle: "Kunden",
     phSearch: "Suchen...",
     companyName: "Firmenname",
@@ -720,14 +705,12 @@ const translations = {
     closeTime: "Schließzeit",
     notes: "Notizen",
     btnSave: "Speichern",
-
     trailTitle: "Trailer",
     phTrailSearch: "Unit/Kennzeichen suchen...",
     unitNumber: "Unit-Nummer",
     licensePlate: "Kennzeichen",
     maxLoad: "Max. Ladung (lbs)",
     psiMaxLoad: "PSI bei Max.-Ladung",
-
     settTitle: "Einstellungen",
     driverName: "Fahrername:",
     rateMile: "Satz pro Meile:",
@@ -737,24 +720,19 @@ const translations = {
     btnClear: "Alles zurücksetzen",
     tips: "Tipps",
     tipsText: "Exportiere regelmäßig ein Backup, damit keine Daten verloren gehen, falls Safari-Speicher gelöscht wird.",
-
     exportPdf: "Als PDF exportieren",
     archivedLogs: "Archivierte Logs",
     previewReport: "Bericht anzeigen",
-
     edit: "Bearbeiten",
     saveChanges: "Änderungen speichern",
     archiveDetails: "Archivdetails",
-
     tabLog: "Log",
     tabArch: "Archiv",
     tabCust: "Kunden",
     tabTrail: "Flotte",
     tabSett: "Einst.",
-
     noArchivedData: "Keine archivierten Daten für den gewählten Filter.",
     unknownPeriod: "Unbekannter Zeitraum",
-
     weekPeriod: "Wochenzeitraum",
     entries: "Einträge",
     rates: "Sätze",
@@ -769,11 +747,9 @@ const translations = {
     editWeek: "Woche bearbeiten",
     deleteWeek: "Woche löschen",
     archivedRates: "Archivierte Sätze",
-
     editEntry: "Eintrag bearbeiten",
     editCustomer: "Kunde bearbeiten",
     editTrailer: "Trailer bearbeiten",
-
     lblAddress: "Adresse",
     lblHours: "Arbeitszeiten",
     lblNotes: "Notizen",
@@ -781,13 +757,11 @@ const translations = {
     lblPlate: "Kennzeichen",
     lblMaxLoad: "Max. Ladung",
     lblPsi: "PSI",
-
     reportTitle: "Trucker Wallet Bericht",
     reportDriver: "Fahrer",
     reportDate: "Datum",
     close: "Schließen",
     printPdf: "PDF drucken",
-
     alertSelectDate: "Bitte ein Datum auswählen",
     alertNoLogs: "Keine aktuellen Logs zum Archivieren.",
     confirmDeleteWeek: "Diese archivierte Woche löschen?",
@@ -833,8 +807,7 @@ let archFilter = 'weeks';
 let currentEditingId = null;
 let archiveFilterStart = '';
 let archiveFilterEnd = '';
-
-function saveAll() {
+  function saveAll() {
   localStorage.setItem(STORAGE_KEYS.logs, JSON.stringify(logs));
   localStorage.setItem(STORAGE_KEYS.archive, JSON.stringify(archive));
   localStorage.setItem(STORAGE_KEYS.customers, JSON.stringify(customers));
@@ -900,7 +873,10 @@ function formatMoney(num) {
 }
 
 function formatPeriodFromLogs(logItems) {
-  const validDates = logItems.map(function(l) { return new Date(l.date + 'T00:00:00'); }).filter(function(d) { return !isNaN(d); });
+  const validDates = logItems
+    .map(function(l) { return new Date(l.date + 'T00:00:00'); })
+    .filter(function(d) { return !isNaN(d); });
+
   if (!validDates.length) return t('unknownPeriod');
 
   const start = new Date(Math.min.apply(null, validDates));
@@ -984,8 +960,12 @@ function render() {
 }
 
 function getArchiveEntriesRange(week) {
-  const dates = week.entries.map(function(e) { return new Date(e.date + 'T00:00:00'); }).filter(function(d) { return !isNaN(d); });
+  const dates = week.entries
+    .map(function(e) { return new Date(e.date + 'T00:00:00'); })
+    .filter(function(d) { return !isNaN(d); });
+
   if (!dates.length) return null;
+
   return {
     start: new Date(Math.min.apply(null, dates)),
     end: new Date(Math.max.apply(null, dates))
@@ -1060,7 +1040,6 @@ function renderArchive() {
       if (!range) return;
       const d = range.start;
       const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
-
       if (!grouped[key]) grouped[key] = [];
       grouped[key].push(a);
     });
@@ -1092,7 +1071,6 @@ function renderArchive() {
       if (!range) return;
       const d = range.start;
       const key = String(d.getFullYear());
-
       if (!grouped[key]) grouped[key] = [];
       grouped[key].push(a);
     });
@@ -1126,8 +1104,7 @@ function renderArchive() {
     archDiv.innerHTML = html;
   }
 }
-
-function openArchiveWeekDetail(id) {
+  function openArchiveWeekDetail(id) {
   const week = archive.find(function(a) { return a.id === id; });
   if (!week) return;
 
@@ -1262,7 +1239,11 @@ function editArchivedWeek(id) {
       '</div>';
   }).join('');
 
-  document.getElementById('modalBody').innerHTML = rateInfo + rows + '<button onclick="deleteWeek(' + id + ')" class="danger" style="margin-top:15px;" type="button">' + t('deleteWeek') + '</button>';
+  document.getElementById('modalBody').innerHTML =
+    rateInfo +
+    rows +
+    '<button onclick="deleteWeek(' + id + ')" class="danger" style="margin-top:15px;" type="button">' + t('deleteWeek') + '</button>';
+
   document.getElementById('editModal').style.display = 'flex';
 
   document.getElementById('modalSaveBtn').onclick = function() {
@@ -1373,8 +1354,7 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
-
-function editCurrentLog(id) {
+  function editCurrentLog(id) {
   const entry = logs.find(function(l) { return l.id === id; });
   if (!entry) return;
 
@@ -1754,6 +1734,4 @@ function generatePdf() {
   if (document.getElementById('checkCust').checked) {
     html += '<h2>' + t('custTitle') + '</h2>';
     html += customers.map(function(c) {
-      return '<p>' +
-        '<strong>' + escapeHtml(c.name) + '</strong><br>' +
-       
+      return '<p
