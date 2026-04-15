@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trucker-wallet-pro-v12-4';
+const CACHE_NAME = 'trucker-wallet-pro-v12-5';
 const urlsToCache = [
   './',
   './index.html',
