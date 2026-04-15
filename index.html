@@ -1735,3 +1735,66 @@ function generatePdf() {
     html += '<h2>' + t('custTitle') + '</h2>';
     html += customers.map(function(c) {
       return '<p
+        '<strong>' + escapeHtml(c.name) + '</strong><br>' +
+        t('lblAddress') + ': ' + escapeHtml(c.addr || '') + '<br>' +
+        t('lblHours') + ': ' + escapeHtml(c.hours || '') + '<br>' +
+        t('lblNotes') + ': ' + escapeHtml(c.notes || '') +
+      '</p>';
+    }).join('');
+  }
+
+  if (document.getElementById('checkTrail').checked) {
+    html += '<h2>' + t('trailTitle') + '</h2>';
+    html += trailers.map(function(ti) {
+      return '<p>' +
+        t('lblUnit') + ' ' + escapeHtml(ti.unit) +
+        ' | ' + t('lblPlate') + ': ' + escapeHtml(ti.plate || '') +
+        ' | ' + t('lblMaxLoad') + ': ' + escapeHtml(ti.max || '') +
+        ' | ' + t('lblPsi') + ': ' + escapeHtml(ti.psi || '') +
+      '</p>';
+    }).join('');
+  }
+
+  area.innerHTML = html;
+  area.classList.add('viewing');
+  closeModal('pdfModal');
+}
+
+window.onclick = function(event) {
+  const pdfModal = document.getElementById('pdfModal');
+  const editModal = document.getElementById('editModal');
+  const archiveDetailModal = document.getElementById('archiveDetailModal');
+
+  if (event.target === pdfModal) pdfModal.style.display = 'none';
+  if (event.target === editModal) editModal.style.display = 'none';
+  if (event.target === archiveDetailModal) archiveDetailModal.style.display = 'none';
+};
+
+const savedTheme = localStorage.getItem(STORAGE_KEYS.theme) || 'light';
+document.body.setAttribute('data-theme', savedTheme);
+
+const now = new Date();
+const yyyy = now.getFullYear();
+const mm = String(now.getMonth() + 1).padStart(2, '0');
+const dd = String(now.getDate()).padStart(2, '0');
+document.getElementById('entryDate').value = `${yyyy}-${mm}-${dd}`;
+
+document.getElementById('rateMile').value = settings.rateMile;
+document.getElementById('rateDrop').value = settings.rateDrop;
+document.getElementById('rateWait').value = settings.rateWait;
+document.getElementById('driverName').value = settings.driverName || '';
+
+toggleCustomerHoursFields();
+applyLang();
+render();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./service-worker.js').catch(function(err) {
+      console.log('SW fail:', err);
+    });
+  });
+}
+</script>
+</body>
+</html>
